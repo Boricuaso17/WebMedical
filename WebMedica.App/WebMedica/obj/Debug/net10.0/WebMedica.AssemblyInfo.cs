@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebMedica")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0aacdf8d57fedd93933a40ca3771f511440f08a2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b4f6551e01073b17eda84696bbdbe7c39bc1cc1")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebMedica")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebMedica")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

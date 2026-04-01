@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WebMedica.Models;
+using WebMedicalApp.Models;
 
-namespace WebMedica.Controllers
+namespace WebMedical.Controllers
 {
     public class HomeController : Controller
     {
