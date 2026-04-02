@@ -9,7 +9,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebMedicalApp.Models
+namespace WebMedical.Models
 {
     public class Appointment
     {

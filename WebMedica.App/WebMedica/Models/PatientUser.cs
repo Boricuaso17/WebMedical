@@ -5,12 +5,12 @@
  * This is the model class for the entity patient
  */
 
-using WebMedicalApp.Enum;
+using WebMedical.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebMedicalApp.Models
+namespace WebMedical.Models
 {
     public class PatientUser //Cambio #3 IdentityUser<Guid>
     {

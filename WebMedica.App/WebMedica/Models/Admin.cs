@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebMedicalApp.Models
+namespace WebMedical.Models
 {
     //Inherits all IdentityUser properties
     public class Admin //: IdentityUser //Cambio #2 IdentityUser<Guid>

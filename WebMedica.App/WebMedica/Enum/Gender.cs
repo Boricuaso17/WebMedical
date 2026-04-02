@@ -1,4 +1,4 @@
-﻿namespace WebMedicalApp.Enum
+﻿namespace WebMedical.Enum
 {
     public enum Gender
     {

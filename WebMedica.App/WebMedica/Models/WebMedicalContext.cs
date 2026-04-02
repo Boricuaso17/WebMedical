@@ -8,7 +8,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace WebMedicalApp.Models
+namespace WebMedical.Models
 {
     public class WebMedicalContext : DbContext // DbContext 
     {

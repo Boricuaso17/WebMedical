@@ -5,7 +5,7 @@
  * This is the enum class for state
  */
 
-namespace WebMedicalApp.Enum
+namespace WebMedical.Enum
 {
     public enum State
     {

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WebMedicalApp.Models;
+using WebMedical.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

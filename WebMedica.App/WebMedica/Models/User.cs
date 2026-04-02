@@ -7,9 +7,9 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WebMedicalApp.Enum;
+using WebMedical.Enum;
 
-namespace WebMedicalApp.Models
+namespace WebMedical.Models
 {
     public class User
     {
@@ -58,6 +58,12 @@ namespace WebMedicalApp.Models
 
         //The second line for postal address of the patient
         public string PostalAddressLine2 { get; set; }
+
+        // Shows if the user is active or not in the system
+        public bool IsActive { get; set; }
+
+        // Show if the user is registered or not
+        public bool IsRegister { get; set; }
 
     }
 }

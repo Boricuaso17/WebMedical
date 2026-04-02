@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace WebMedicalApp.Models
+namespace WebMedical.Models
 {
     public class UserRole
     {
