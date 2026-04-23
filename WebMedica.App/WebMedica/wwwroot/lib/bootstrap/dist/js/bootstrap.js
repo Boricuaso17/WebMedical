@@ -3904,7 +3904,7 @@
         this._process(targetElement(entry));
       };
       const parentScrollTop = (this._rootElement || document.documentElement).scrollTop;
-      const userScrollsDown = parentScrollTop >= this._previousScrollData.parentScrollTop;
+      const UsercrollsDown = parentScrollTop >= this._previousScrollData.parentScrollTop;
       this._previousScrollData.parentScrollTop = parentScrollTop;
       for (const entry of entries) {
         if (!entry.isIntersecting) {
@@ -3914,7 +3914,7 @@
         }
         const entryIsLowerThanPrevious = entry.target.offsetTop >= this._previousScrollData.visibleEntryTop;
         // if we are scrolling down, pick the bigger offsetTop
-        if (userScrollsDown && entryIsLowerThanPrevious) {
+        if (UsercrollsDown && entryIsLowerThanPrevious) {
           activate(entry);
           // if parent isn't scrolled, let's keep the first visible item, breaking the iteration
           if (!parentScrollTop) {
@@ -3924,7 +3924,7 @@
         }
 
         // if we are scrolling up, pick the smallest offsetTop
-        if (!userScrollsDown && !entryIsLowerThanPrevious) {
+        if (!UsercrollsDown && !entryIsLowerThanPrevious) {
           activate(entry);
         }
       }

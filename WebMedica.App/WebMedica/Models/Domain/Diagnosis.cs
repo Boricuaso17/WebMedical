@@ -8,7 +8,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebMedical.Models
+namespace WebMedical.Models.Domain
 {
     public class Diagnosis
     {
@@ -32,16 +32,12 @@ namespace WebMedical.Models
        // [Required]
         public bool IsSigned { get; set; }
 
-        #region Declarations of foreing keys and navigation properties
-        //The Social Security Number of PATIENT
-        [Required]
-        public string PatientId { get; set; } //Foreign Key
-        public PatientUser Patient { get; set; } //Navigation Property
-
-        //The Social Security Number of PERSONAL
+        //#region Declarations of foreing keys and navigation properties
+        ////The Social Security Number of PATIENT
         //[Required]
-        public string MedStaffId { get; set; }//Foreign Key
-        public Admin MedStaff { get; set; } //Navigation Property
-        #endregion
+        //public string UserId { get; set; } //Foreign Key
+        //public User User { get; set; } //Navigation Property
+
+        //#endregion
     }
 }

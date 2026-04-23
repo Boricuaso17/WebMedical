@@ -1,0 +1,32 @@
+﻿@model WebMedical.Models.ViewModel.AddUserRequest
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Name @Model.LastName</td>
+
+            <td>
+                <form asp-action="Edit" asp-controller="User" method="get" style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Guid" value="@Model.Guid" />
+                    <button type="submit" class="btn btn-success">Edit</button>
+                </form>
+            </td>
+
+            <td>
+                <form asp-action="Delete" asp-controller="User" method="post" style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Guid" value="@Model.Guid" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>

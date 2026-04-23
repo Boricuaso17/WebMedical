@@ -1,49 +1,88 @@
-﻿@model WebMedical.Models.User
+﻿@model WebMedical.Models.Domain.User
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <style>
-    .userSearchContainer {
-        width: 100%;
+    .containerHome{
+        display: flex;
+        justify-content: center;
+    }
+
+    .UserearchContainer {
+        display: flex;
+        align-items: center;
+        width: 80%;
         height: 30rem;
         background: #2e2e2e;
         margin-top: 5rem;
         color: white;
         padding: 3rem;
         border-radius: 20px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.8);
+    }
+
+    form {
+        display: inline-block
+        width: 100%;
     }
 
     .inputContainer {
-        width:100%;
+        width: 100%;
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
+    
+    label{
+        margin-top: 4rem;
+    }
+
+    input {
+        width: 100%;
+        border-radius: 15px;
+        height: 2.5rem;
+    }
+
+    button {
+        border-radius: 20px;
+        border: none;
+        height: 3rem;
+        width: 5rem;
+        background: white;
+        color: black;
+        margin-top: 1rem;
+
+    }
+
 </style>
 
 <div class="text-center">
     <h1 class="display-4">Welcome to Web Medical App</h1>
 </div>
 
-<div class="userSearchContainer">
-    <div class="inputContainer">
+<div class="containerHome">
+    <div class="UserearchContainer">
+        <div class="inputContainer">
 
-        <label for="name">Nombre</label>
-        <div>
-            <form method="post" asp-action="Index" asp-controller="Patient">
-            <input type="text" id="name" asp-for="Name"/>
-                <button type="submit">Search</button>
-            </form>
-        </div>
+            
+            <div>
+                <form method="get" asp-action="Index" asp-controller="User">
+                    <label asp-for="Name">Nombre</label>
+                    <input type="text" asp-for="Name" />
+                    <button type="submit">Search</button>
+                </form>
+            </div>
         
-        <label for="name">Social Security Number</label>
-        <div>
-            <form method="post" asp-action="Index" asp-controller="Patient">
-            <input type="text" id="SSN" asp-for="SocialSecurityNumberID"/>
-            <button type="submit">Search</button>
-            </form>
+            
+            <div>
+                <form method="get" asp-action="Record" asp-controller="Home">
+                    <label asp-for="SocialSecurityNumber">Social Security Number</label>
+                    <input type="text" asp-for="SocialSecurityNumber" />
+                    <button type="submit">Search</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

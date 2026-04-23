@@ -1,12 +1,16 @@
 using Microsoft.EntityFrameworkCore;
-using WebMedical.Models;
+using WebMedical.Data;
+using WebMedical.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<WebMedicalContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("WebMedicaldbConn")));
+builder.Services.AddDbContext<WebMedicalContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("WebMedicaldbConn")));
+Console.WriteLine(builder.Configuration.GetConnectionString("WebMedicaldbConn"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

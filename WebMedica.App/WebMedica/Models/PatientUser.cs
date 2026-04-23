@@ -9,6 +9,7 @@ using WebMedical.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WebMedical.Models.Domain;
 
 namespace WebMedical.Models
 {
@@ -80,7 +81,7 @@ namespace WebMedical.Models
 
         //The postal code
         [Required(ErrorMessage = "Please enter a postal code")]
-        public int ZipCode { get; set; }
+        public int Zipcode { get; set; }
 
         //The postal address of the patient
         [Required(ErrorMessage = "Please enter a postal address")]

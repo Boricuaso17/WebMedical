@@ -8,7 +8,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebMedical.Models
+namespace WebMedical.Models.Domain
 {
     
     public class Prescription

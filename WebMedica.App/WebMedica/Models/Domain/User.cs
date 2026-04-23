@@ -9,13 +9,17 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebMedical.Enum;
 
-namespace WebMedical.Models
+namespace WebMedical.Models.Domain
 {
+    [Table("User")]
     public class User
     {
-        ////The Social Security Number of the user
         [Key]
-        public string SocialSecurityNumberID { get; set; } //Primary Key
+        public long Id { get; set; }
+
+        public Guid Guid { get; set; }
+        ////The Social Security Number of the user
+        public string SocialSecurityNumber { get; set; } //Primary Key
 
         //The name of the Staff
         //[Required]
@@ -26,14 +30,14 @@ namespace WebMedical.Models
 
         //The pathernal last name of the Staff
         // [Required]
-        public string LastName1 { get; set; }
+        public string LastName { get; set; }
 
         //The mathernal last name of the Staff
         // [Required]
         public string LastName2 { get; set; }
 
         //The date of birth of the user
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
 
         //The personal cellphone of the user
         public string Phone { get; set; }
@@ -45,13 +49,13 @@ namespace WebMedical.Models
         public string FisicalAddressLine2 { get; set; }
 
         //The town where the user lives
-        public Town Town { get; set; }
+        public int Town { get; set; }
 
         //The states where the patient lives
-        public State State { get; set; }
+        public int State { get; set; }
 
         //The postal code
-        public int ZipCode { get; set; }
+        public int Zipcode { get; set; }
 
         //The postal address of the patient
         public string PostalAddress { get; set; }
@@ -65,5 +69,28 @@ namespace WebMedical.Models
         // Show if the user is registered or not
         public bool IsRegister { get; set; }
 
+        /// <summary>
+        /// Username of the user required to login into the app
+        /// </summary>
+        [Required(ErrorMessage = "Please enter a username.")]
+        [RegularExpression("^[a-zA-Z0-9 ]+$",
+        ErrorMessage = "Username may not contain special characters.")]
+        public string Username { get; set; }
+
+        [Required(ErrorMessage = "Please enter a password.")]
+        [Compare("ConfirmPassword")]
+        [StringLength(25,
+            ErrorMessage = "Please limit your password to 25 characters")]
+        public string Password { get; set; }
+
+        [Required(ErrorMessage = "Please enter an email address.")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+        // public ICollection<Diagnosis> Diagnoses { get; set; } = new List<Diagnosis>();
+
+        // public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>();
+
+        // public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
     }
 }
