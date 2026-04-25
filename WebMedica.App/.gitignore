@@ -1,10 +1,9 @@
-.vs/
+# Config sensibles
+appsettings.Development.json
+
+# Build
 bin/
 obj/
 
-appsettings.Development.json
-<<<<<<< Updated upstream
-appsettings.Local.json
-=======
-appsettings.Local.json
->>>>>>> Stashed changes
+# VS
+.vs/
