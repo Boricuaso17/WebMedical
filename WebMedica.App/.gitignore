@@ -1,4 +1,5 @@
 # Config sensibles
+appsettings.json
 appsettings.Development.json
 
 # Build
