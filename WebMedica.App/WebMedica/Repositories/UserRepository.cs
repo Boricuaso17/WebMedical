@@ -13,21 +13,54 @@ namespace WebMedical.Repositories
         {
             _webMedicalDbContext = webMedicalDbContext;
         }
-        public async Task<User> AddSync(User user)
+        public async Task<UserProfile> AddSync(UserProfile user)
         {
-            await _webMedicalDbContext.User.AddAsync(user);
+            await _webMedicalDbContext.UserProfile.AddAsync(user);
             await _webMedicalDbContext.SaveChangesAsync();
 
             return user;
         }
 
-        public async Task<User?> DeleteAsync(Guid guid)
+        public async Task<IEnumerable<UserProfile>> GetAllAsync()
         {
-            var user = await _webMedicalDbContext.User.FirstOrDefaultAsync(u => u.Guid == guid);
+            var userList = await _webMedicalDbContext.UserProfile.ToListAsync();
+
+            return userList;
+        }
+
+        public async Task<UserProfile?> GetUserAsync(Guid guid)
+        {
+            var user = await _webMedicalDbContext.UserProfile.FirstOrDefaultAsync(u => u.Guid == guid);
+
+            return user;
+        }
+
+        public async Task<List<UserProfile>> GetUserByNameAsync(string search)
+        {
+            var users = await _webMedicalDbContext.UserProfile.Where(u =>
+                u.Name.Contains(search) ||
+                u.MiddleName.Contains(search) ||
+                u.LastName.Contains(search) ||
+                u.LastName2.Contains(search)).ToListAsync();
+
+            return users;
+        }
+
+        public async Task<UserProfile> UpdateAsync(UserProfile user)
+        {
+             _webMedicalDbContext.UserProfile.Update(user);
+            await _webMedicalDbContext.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<UserProfile?> DeleteAsync(Guid guid)
+        {
+            var user = await _webMedicalDbContext.UserProfile.FirstOrDefaultAsync(u => u.Guid == guid);
 
             if (user != null)
             {
-                _webMedicalDbContext.User.Remove(user);
+                _webMedicalDbContext.UserProfile.Remove(user);
                 await _webMedicalDbContext.SaveChangesAsync();
                 return user;
             }
@@ -35,35 +68,6 @@ namespace WebMedical.Repositories
             {
                 return null;
             }
-        }
-
-        public async Task<IEnumerable<User>> GetAllAsync()
-        {
-            var userList = await _webMedicalDbContext.User.ToListAsync();
-
-            return userList;
-        }
-
-        public async Task<User?> GetUserAsync(Guid guid)
-        {
-            var user = await _webMedicalDbContext.User.FirstOrDefaultAsync(u => u.Guid == guid);
-
-            return user;
-        }
-
-        public async Task<User> GetUserByNameAsync(string name)
-        {
-            var user = await _webMedicalDbContext.User.FirstOrDefaultAsync(u => u.Name == name);
-
-            return user;
-        }
-
-        public async Task<User> UpdateAsync(User user)
-        {
-             _webMedicalDbContext.User.Update(user);
-            await _webMedicalDbContext.SaveChangesAsync();
-
-            return user;
         }
     }
 }

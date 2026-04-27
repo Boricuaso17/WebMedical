@@ -5,6 +5,7 @@ namespace WebMedical.Models.ViewModel
 {
     public class AddUserRequest
     {
+        public int Id { get; set; }
         public Guid Guid { get; set; }
 
         [Key]
@@ -77,5 +78,9 @@ namespace WebMedical.Models.ViewModel
         [Required(ErrorMessage = "Please enter an email address.")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        public string FullName => string.Join(" ", new[] { Name, MiddleName, LastName, LastName2 }
+            .Where(s => !string.IsNullOrWhiteSpace(s)));
+
     }
 }

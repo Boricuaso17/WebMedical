@@ -7,7 +7,7 @@ namespace WebMedical.Models
 {
     public class UserRole
     {
-        public IEnumerable<User> AppUser { get; set; }
+        public IEnumerable<UserProfile> AppUser { get; set; }
         public IEnumerable<IdentityRole> Roles { get; set; }
     }
 }

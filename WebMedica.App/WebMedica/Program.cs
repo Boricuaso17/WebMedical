@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebMedical.Data;
+using WebMedical.Models.Domain;
 using WebMedical.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<WebMedicalContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("WebMedicaldbConn")));
-Console.WriteLine(builder.Configuration.GetConnectionString("WebMedicaldbConn"));
+builder.Services.AddIdentity<UserLogin, IdentityRole>()
+    .AddEntityFrameworkStores<WebMedicalContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
@@ -25,6 +29,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

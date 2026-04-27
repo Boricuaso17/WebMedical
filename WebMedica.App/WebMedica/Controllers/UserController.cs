@@ -9,43 +9,20 @@ namespace WebMedical.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
-        private readonly PasswordHasher<AddUserRequest> _passwordHasher;
+        private readonly UserManager<UserLogin> _userManager;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, UserManager<UserLogin> userManager)
         {
             _userRepository = userRepository;
-            _passwordHasher = new PasswordHasher<AddUserRequest>();
+            _userManager = userManager;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(User user)
+        public async Task<IActionResult> Index(Guid guid)
         {
-            var userSearched = await _userRepository.GetUserByNameAsync(user.Name);
+            var user = await _userRepository.GetUserAsync(guid);
 
-            var userFound = new AddUserRequest
-            {
-                Guid = userSearched.Guid,
-                SocialSecurityNumber = userSearched.SocialSecurityNumber,
-                Name = userSearched.Name,
-                MiddleName = userSearched.MiddleName,
-                LastName = userSearched.LastName,
-                LastName2 = userSearched.LastName2,
-                DateOfBirth = userSearched.DateOfBirth,
-                Phone = userSearched.Phone,
-                FisicalAddress = userSearched.FisicalAddress,
-                FisicalAddressLine2 = userSearched.FisicalAddressLine2,
-                Town = userSearched.Town,
-                State = userSearched.State,
-                Zipcode = userSearched.Zipcode,
-                PostalAddress = userSearched.PostalAddress,
-                PostalAddressLine2 = userSearched.PostalAddressLine2,
-                Username = userSearched.Username,
-                Password = userSearched.Password,
-                Email = userSearched.Email,
-                IsActive = userSearched.IsActive
-            };
-
-            return RedirectToAction("Record", "Home", userFound);
+            return View(ToAddUserRequest(user));
         }
 
         [HttpGet]
@@ -57,35 +34,24 @@ namespace WebMedical.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddUserRequest user)
+        public async Task<IActionResult> Add(AddUserRequest model)
         {
             try
             {
-                var newUser = new User
+                var userLogin = new UserLogin
                 {
-                    SocialSecurityNumber = user.SocialSecurityNumber,
-                    Guid = Guid.NewGuid(),
-                    Name = user.Name,
-                    MiddleName = user.MiddleName,
-                    LastName = user.LastName,
-                    LastName2 = user.LastName2,
-                    DateOfBirth = user.DateOfBirth,
-                    Phone = user.Phone,
-                    FisicalAddress = user.FisicalAddress,
-                    FisicalAddressLine2 = user.FisicalAddressLine2,
-                    Town = user.Town,
-                    State = user.State,
-                    Zipcode = user.Zipcode,
-                    PostalAddress = user.PostalAddress,
-                    PostalAddressLine2 = user.PostalAddressLine2,
-                    Username = user.Username,
-                    Password = _passwordHasher.HashPassword(user, user.Password),
-                    Email = user.Email,
-                    IsRegister = true,
-                    IsActive = user.IsActive
+                    UserName = model.Username,
+                    Email = model.Email,
                 };
 
-                await _userRepository.AddSync(newUser);
+                var result = await _userManager.CreateAsync(userLogin, model.Password);
+
+                if (!result.Succeeded)
+                {
+                    return View(model);
+                }
+
+                await _userRepository.AddSync(ToUserProfile(model));
 
                 return View();
             }
@@ -104,67 +70,26 @@ namespace WebMedical.Controllers
 
             var user = await _userRepository.GetUserAsync(guid);
 
-            var editUser = new AddUserRequest()
-            {
-                SocialSecurityNumber = user.SocialSecurityNumber,
-                Name = user.Name,
-                MiddleName = user.MiddleName,
-                LastName = user.LastName,
-                LastName2 = user.LastName2,
-                DateOfBirth = user.DateOfBirth,
-                Phone = user.Phone,
-                FisicalAddress = user.FisicalAddress,
-                FisicalAddressLine2 = user.FisicalAddressLine2,
-                Town = user.Town,
-                State = user.State,
-                Zipcode = user.Zipcode,
-                PostalAddress = user.PostalAddress,
-                PostalAddressLine2 = user.PostalAddressLine2,
-                Username = user.Username,
-                Password = user.Password,
-                Email = user.Email,
-                IsActive = true
-            };
+            var addUserRequest = ToAddUserRequest(user);
 
-            return View("Add", editUser);
+            return View("Add", addUserRequest);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(AddUserRequest user)
+        public async Task<IActionResult> Edit(AddUserRequest model)
         {
-            var editedUser = new User
-            {
-                SocialSecurityNumber = user.SocialSecurityNumber,
-                Name = user.Name,
-                MiddleName = user.MiddleName,
-                LastName = user.LastName,
-                LastName2 = user.LastName2,
-                DateOfBirth = user.DateOfBirth,
-                Phone = user.Phone,
-                FisicalAddress = user.FisicalAddress,
-                FisicalAddressLine2 = user.FisicalAddressLine2,
-                Town = user.Town,
-                State = user.State,
-                Zipcode = user.Zipcode,
-                PostalAddress = user.PostalAddress,
-                PostalAddressLine2 = user.PostalAddressLine2,
-                Username = user.Username,
-                Password = user.Password,
-                Email = user.Email,
-                IsRegister = true,
-                IsActive = true
-            };
+            var userProfile = await _userRepository.UpdateAsync(ToUserProfile(model));
 
-            var userEdited = await _userRepository.UpdateAsync(editedUser);
+            TempData["SuccessMessage"] = $"The user {userProfile.Name} was successfully updated";
 
-            return RedirectToAction("Record", "Home", userEdited);
+            return RedirectToAction("Edit", userProfile.Guid);
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(Guid guid)
         {
-            User user = await _userRepository.DeleteAsync(guid);
-            return RedirectToAction("Record", "Home");
+            var user = await _userRepository.DeleteAsync(guid);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -179,12 +104,8 @@ namespace WebMedical.Controllers
 
             if (request != null)
             {
-                var user = new User
-                {
-                    Password = request.Password,
-                };
 
-                var editedUser = _userRepository.UpdateAsync(user);
+                //var editedUser = _userRepository.UpdateAsync(model);
 
                 return View();
             }
@@ -192,6 +113,60 @@ namespace WebMedical.Controllers
             return View();
 
         }
+
+        public static AddUserRequest ToAddUserRequest(UserProfile model) 
+        {
+            var user = new AddUserRequest()
+            {
+                Id = model.Id,
+                Guid = model.Guid,
+                SocialSecurityNumber = model.SocialSecurityNumber,
+                Name = model.Name,
+                MiddleName = model.MiddleName,
+                LastName = model.LastName,
+                LastName2 = model.LastName2,
+                DateOfBirth = model.DateOfBirth,
+                Phone = model.Phone,
+                FisicalAddress = model.FisicalAddress,
+                FisicalAddressLine2 = model.FisicalAddressLine2,
+                Town = model.Town,
+                State = model.State,
+                Zipcode = model.Zipcode,
+                PostalAddress = model.PostalAddress,
+                PostalAddressLine2 = model.PostalAddressLine2,
+                IsActive = true
+            };
+
+            return user;
+        }
+
+        public static UserProfile ToUserProfile(AddUserRequest model) 
+        {
+            var user = new UserProfile
+            {
+                Id = model.Id,
+                Guid = model.Guid,
+                SocialSecurityNumber = model.SocialSecurityNumber,
+                Name = model.Name,
+                MiddleName = model.MiddleName,
+                LastName = model.LastName,
+                LastName2 = model.LastName2,
+                DateOfBirth = model.DateOfBirth,
+                Phone = model.Phone,
+                FisicalAddress = model.FisicalAddress,
+                FisicalAddressLine2 = model.FisicalAddressLine2,
+                Town = model.Town,
+                State = model.State,
+                Zipcode = model.Zipcode,
+                PostalAddress = model.PostalAddress,
+                PostalAddressLine2 = model.PostalAddressLine2,
+                IsRegister = true,
+                IsActive = true
+            };
+
+            return user;
+        }
+
 
     }
 }

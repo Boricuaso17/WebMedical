@@ -5,32 +5,34 @@
  * This is the Context class for the Database WebMedicalDb
  */
 
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using System;
 using WebMedical.Models.Domain;
 
 namespace WebMedical.Data
 {
-    public class WebMedicalContext : DbContext // DbContext 
+    public class WebMedicalContext : IdentityDbContext<UserLogin> // DbContext 
     {
 
         public WebMedicalContext(DbContextOptions<WebMedicalContext> options) : base(options) { }
 
         //Name of the tables in the data base WebMedicalDb
         #region DbSet Declarations
-        public DbSet<User> User { get; set; }
-        public DbSet<Diagnosis> Diagnosis { get; set; }
-        public DbSet<Appointment> Appointment { get; set; }
-        public DbSet<Prescription> Prescription { get; set; }
+        public DbSet<UserProfile> UserProfile { get; set; }
+        //public DbSet<Diagnosis> Diagnosis { get; set; }
+        //public DbSet<Appointment> Appointment { get; set; }
+        //public DbSet<Prescription> Prescription { get; set; }
         #endregion 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .Property(u => u.IsActive);
+            modelBuilder.Entity<UserProfile>().ToTable("UserProfile");
 
-            modelBuilder.Entity<User>()
-                .Property(u => u.IsRegister);
+            modelBuilder.Entity<UserLogin>()
+                .HasOne(u => u.Profile)
+                .WithOne(p => p.UserLogin)
+                .HasForeignKey<UserProfile>(p => p.UserLoginId);
 
             base.OnModelCreating(modelBuilder);
         }
