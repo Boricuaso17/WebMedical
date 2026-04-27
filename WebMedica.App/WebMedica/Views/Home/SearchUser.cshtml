@@ -1,0 +1,54 @@
+﻿@model List<WebMedical.Models.ViewModel.AddUserRequest>
+
+
+<style>
+    .cardContainer {
+        display: flex;
+        flex-direction: column;
+        background: #181818;
+        justify-content: space-between;
+        align-items: center;
+        height: 10rem;
+        width: 20rem;
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+        color: white;
+    }
+
+    .actionBtn {
+        background: #a6a6a6;
+        height: 2.5rem;
+        border-radius: 30px;
+        width: 100%;
+        border: none;
+        padding: 0 1rem;
+        text-decoration: none;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+
+    }
+
+    .btnDelete {
+        background: red;
+    }
+
+    .btnEdit {
+        background: yellow;
+    }
+
+
+</style>
+
+<div class="d-flex flex-wrap gap-3 justify-content-start">
+    @foreach (var user in Model)
+    {
+        <div class="cardContainer">
+            <h5>@user.FullName</h5>
+
+            <a class="actionBtn" asp-action="Index" asp-controller="User" asp-route-guid="@user.Guid" ><i class="fa-solid fa-clipboard-list"></i> &nbsp; Record</a>
+        </div>
+    }
+</div>
