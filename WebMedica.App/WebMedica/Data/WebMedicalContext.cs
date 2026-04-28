@@ -30,9 +30,9 @@ namespace WebMedical.Data
             modelBuilder.Entity<UserProfile>().ToTable("UserProfile");
 
             modelBuilder.Entity<UserLogin>()
-                .HasOne(u => u.Profile)
+                .HasOne(u => u.UserProfile)
                 .WithOne(p => p.UserLogin)
-                .HasForeignKey<UserProfile>(p => p.UserLoginId);
+                .HasForeignKey<UserLogin>(p => p.UserProfileId);
 
             base.OnModelCreating(modelBuilder);
         }

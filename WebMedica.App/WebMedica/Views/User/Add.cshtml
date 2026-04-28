@@ -120,6 +120,11 @@
                 <span asp-validation-for="PostalAddressLine2" class="text-danger"></span>
             </div>
 
+            <div class="form-group">
+                <label asp-for="Role" class="control-label"></label>
+                <select asp-for="Role" asp-items="Html.GetEnumSelectList<Roles>()" class="form-control"></select>
+            </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)

@@ -79,6 +79,8 @@ namespace WebMedical.Models.ViewModel
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
+        public int Role { get; set; }
+
         public string FullName => string.Join(" ", new[] { Name, MiddleName, LastName, LastName2 }
             .Where(s => !string.IsNullOrWhiteSpace(s)));
 

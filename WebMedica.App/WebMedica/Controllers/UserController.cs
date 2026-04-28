@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebMedical.Models.Domain;
 using WebMedical.Models.ViewModel;
 using WebMedical.Repositories;
+using WebMedical.Enum;
 
 namespace WebMedical.Controllers
 {
@@ -52,6 +53,7 @@ namespace WebMedical.Controllers
                 }
 
                 await _userRepository.AddSync(ToUserProfile(model));
+                await _userManager.AddToRoleAsync(userLogin, ((Roles)model.Role).ToString());
 
                 return View();
             }
@@ -79,6 +81,7 @@ namespace WebMedical.Controllers
         public async Task<IActionResult> Edit(AddUserRequest model)
         {
             var userProfile = await _userRepository.UpdateAsync(ToUserProfile(model));
+                              await UpdateUserRoleAsync(model.Guid, model.Role);
 
             TempData["SuccessMessage"] = $"The user {userProfile.Name} was successfully updated";
 
@@ -167,6 +170,31 @@ namespace WebMedical.Controllers
             return user;
         }
 
+        public async Task<IActionResult> UpdateUserRoleAsync(Guid guid, int role)
+        {
+            var user = await _userManager.FindByIdAsync(guid.ToString());
 
+            if (user == null)
+                return NotFound();
+
+            var currentRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+            if (currentRole != null)
+            {
+                await _userManager.RemoveFromRoleAsync(user, currentRole);
+            }
+
+            var result = await _userManager.AddToRoleAsync(user, ((Roles)role).ToString());
+
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                return BadRequest(errors);
+            }
+
+            TempData["SuccessMessage"] = $"The user {user.UserName} was successfully updated!";
+
+            return RedirectToAction("Add");
+        }
     }
 }

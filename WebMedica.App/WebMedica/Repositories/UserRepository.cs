@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WebMedical.Data;
+using WebMedical.Enum;
 using WebMedical.Models.Domain;
 using WebMedical.Models.ViewModel;
 
