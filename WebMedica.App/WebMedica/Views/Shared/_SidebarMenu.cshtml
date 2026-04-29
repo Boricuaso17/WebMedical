@@ -4,32 +4,42 @@
 @{
 }
 <style>
-    ul {
-        list-style-type: none;
-    }
-
     .sidebar-menu img {
         height: 80px;
         margin: .8rem 0 0 .8rem;
     }
+    
+    ul {
+        list-style-type: none;
+    }
+
+    .bottom {
+        margin-top: auto;
+        padding: 1rem 20px;
+    }
 </style>
 
 <div class="sidebar-menu">
+    <div class="top">
+        <img src="/img/Logo&Txt_NoBg.png" />
+    </div>
 
-    <img src="/img/Logo&Txt_NoBg.png" />
-
-    <ul class="">
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill"></i> Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="User" asp-action="Add"><i class="bi bi-person-add"></i> Create User</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </li>
-    </ul>
+    <div class="middle">
+        <ul class="">
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill"></i> Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="User" asp-action="Add"><i class="bi bi-person-add"></i> Create User</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="bottom" >@User.Identity.Name</div>
 </div>

@@ -15,7 +15,7 @@ namespace WebMedical.Controllers
         public UserController(IUserRepository userRepository, UserManager<UserLogin> userManager)
         {
             _userRepository = userRepository;
-            _userManager = userManager;
+            _userManager = userManager;   
         }
 
         [HttpGet]
@@ -81,7 +81,7 @@ namespace WebMedical.Controllers
         public async Task<IActionResult> Edit(AddUserRequest model)
         {
             var userProfile = await _userRepository.UpdateAsync(ToUserProfile(model));
-                              await UpdateUserRoleAsync(model.Guid, model.Role);
+            await UpdateUserRoleAsync(model.Guid, model.Role);
 
             TempData["SuccessMessage"] = $"The user {userProfile.Name} was successfully updated";
 
@@ -95,29 +95,7 @@ namespace WebMedical.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
-        public IActionResult ChangePassword()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult ChangePassword(ChangePasswordRequest request)
-        {
-
-            if (request != null)
-            {
-
-                //var editedUser = _userRepository.UpdateAsync(model);
-
-                return View();
-            }
-
-            return View();
-
-        }
-
-        public static AddUserRequest ToAddUserRequest(UserProfile model) 
+        public static AddUserRequest ToAddUserRequest(UserProfile model)
         {
             var user = new AddUserRequest()
             {
@@ -143,7 +121,7 @@ namespace WebMedical.Controllers
             return user;
         }
 
-        public static UserProfile ToUserProfile(AddUserRequest model) 
+        public static UserProfile ToUserProfile(AddUserRequest model)
         {
             var user = new UserProfile
             {
@@ -196,5 +174,7 @@ namespace WebMedical.Controllers
 
             return RedirectToAction("Add");
         }
+
+       
     }
 }

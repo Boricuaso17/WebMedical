@@ -18,7 +18,7 @@ namespace WebMedical.Models.Domain
         [Key]
         public int Id { get; set; }
 
-        [Column("UserLoginId_pk")]
+        [Column("UserLoginId_fk")]
         public string? UserLoginId { get; set; }
 
         public Guid Guid { get; set; }

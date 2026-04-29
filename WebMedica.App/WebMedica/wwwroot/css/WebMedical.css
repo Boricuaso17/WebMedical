@@ -23,6 +23,8 @@
     flex-shrink: 0;
     transition: width 0.3s ease;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
     /* Sidebar colapsado */
@@ -68,6 +70,5 @@
 /* Footer */
 footer {
     padding: 10px;
-    margin-top: 10rem;
     position:static !important
 }

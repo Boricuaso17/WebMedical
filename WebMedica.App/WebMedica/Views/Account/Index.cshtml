@@ -1,0 +1,73 @@
+﻿@model WebMedical.Models.ViewModel.LoginRequest
+
+
+<style>
+    .loginContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .loginCard {
+        background: #272727;
+        height: 60%;
+        width: 30rem;
+        padding: 20px;
+        border-radius: 30px;
+    }
+
+    form {
+        height: 100%;
+    }
+
+    .form-group label {
+        color: white;
+        margin-top: 1.5rem;
+    }
+
+    .form-group input {
+    }
+
+    .content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    form button {
+        width: 100%;
+        border-radius: 20px;
+        height: 3rem;
+    }
+
+</style>
+
+<div class="loginContainer">
+    <div class="loginCard">
+        
+        <form asp-action="Login" asp-controller="Account">
+            <div class="content">
+                <div class="form-top">
+                    <div class="form-group">
+                        <label asp-for="Username" class="control-label">Username</label>
+                        <input asp-for="Username" class="form-control" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label">Password</label>
+                        <input asp-for="Password" type="password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <button class="" type="submit"> Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
