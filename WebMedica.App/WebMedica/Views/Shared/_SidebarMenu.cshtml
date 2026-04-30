@@ -13,6 +13,10 @@
         list-style-type: none;
     }
 
+    ul li {
+        text-decoration: none;
+    }
+
     .bottom {
         margin-top: auto;
         padding: 1rem 20px;
@@ -21,25 +25,38 @@
 
 <div class="sidebar-menu">
     <div class="top">
-        <img src="/img/Logo&Txt_NoBg.png" />
+        <a asp-action="Index" asp-controller="Home"><img src="/img/Logo&Txt_NoBg.png" /></a>
     </div>
 
     <div class="middle">
         <ul class="">
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill"></i> Home</a>
+                <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house-chimney"></i> Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="User" asp-action="Add"><i class="bi bi-person-add"></i> Create User</a>
             </li>
-            <li class="nav-item">
+            @* <li class="nav-item">
                 <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </li>
+            </li> *@
         </ul>
     </div>
     
-    <div class="bottom" >@User.Identity.Name</div>
+    <div class="bottom" >
+        <ul>
+            <li class="nav-item">@User.Identity.Name</li>
+            <li class="nav-item"><a class="nav-link" asp-action="" asp-controller=""></a></li>
+            <li class="nav-item">
+                <form asp-action="Logout" asp-controller="Account" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="nav-link btn btn-link text-start w-100">
+                        <i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
 </div>

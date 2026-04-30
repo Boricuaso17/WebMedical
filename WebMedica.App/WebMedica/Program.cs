@@ -10,9 +10,30 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<WebMedicalContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("WebMedicaldbConn")));
-builder.Services.AddIdentity<UserLogin, IdentityRole>()
-    .AddEntityFrameworkStores<WebMedicalContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddIdentity<UserLogin, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 8;
+
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+    options.Lockout.MaxFailedAccessAttempts = 3;
+    options.Lockout.AllowedForNewUsers = true;
+
+    options.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<WebMedicalContext>().AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+    options.SlidingExpiration = true;
+
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    // options.AccessDeniedPath = "/Account/AccessDenied";
+});
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
@@ -36,7 +57,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Index}/{id?}")
+    pattern: "{controller=Account}/{action=Login}/{id?}")
     .WithStaticAssets();
 
 

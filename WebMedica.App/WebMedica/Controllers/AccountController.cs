@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebMedical.Models.Domain;
 using WebMedical.Models.ViewModel;
@@ -8,14 +9,16 @@ namespace WebMedical.Controllers
     public class AccountController : Controller
     {
         private readonly SignInManager<UserLogin> _signInManager;
+        private readonly UserManager<UserLogin> _userManager;
 
-        public AccountController(SignInManager<UserLogin> signInManager)
+        public AccountController(SignInManager<UserLogin> signInManager, UserManager<UserLogin> userManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Login()
         {
             return View();
         }
@@ -23,7 +26,7 @@ namespace WebMedical.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var result = await _signInManager.PasswordSignInAsync(request.Username, request.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(request.Username, request.Password, false, true);
             if (result.Succeeded)
             {
                 return RedirectToAction("Index", "Home");
@@ -31,6 +34,21 @@ namespace WebMedical.Controllers
 
             ViewBag.ErrorMessage = "Invalid username or password.";
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Account");
+        }
+
+        [HttpGet]
+        public IActionResult KeepItSignedIn()
+        {
+            return Ok();
         }
 
         [HttpGet]
@@ -41,18 +59,32 @@ namespace WebMedical.Controllers
 
 
         [HttpPost]
-        public IActionResult ChangePassword(ChangePasswordRequest request)
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
         {
 
-            if (request != null)
+            if (request.NewPassword != request.ConfirmPassword)
             {
-
-                //var editedUser = _userRepository.UpdateAsync(model);
-
-                return View();
+                ModelState.AddModelError("", "Las contraseñas no coinciden.");
+                return View(request);
             }
 
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+
+            var result = await _userManager.ChangePasswordAsync(
+                         user,
+                         request.CurrentPassword,
+                         request.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(request);
+            }
+
+            return RedirectToAction("Index");
 
         }
     }

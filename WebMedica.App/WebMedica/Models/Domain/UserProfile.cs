@@ -18,9 +18,6 @@ namespace WebMedical.Models.Domain
         [Key]
         public int Id { get; set; }
 
-        [Column("UserLoginId_fk")]
-        public string? UserLoginId { get; set; }
-
         public Guid Guid { get; set; }
         ////The Social Security Number of the user
         public string SocialSecurityNumber { get; set; } //Primary Key
