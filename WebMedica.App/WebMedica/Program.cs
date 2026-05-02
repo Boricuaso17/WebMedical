@@ -36,6 +36,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IMedicationRepository, MedicationRepository>();
 
 var app = builder.Build();
 

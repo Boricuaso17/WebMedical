@@ -1,0 +1,49 @@
+﻿@model List<WebMedical.Models.Domain.Medication>
+
+<style>
+
+    .table-container {
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 5rem;
+    }
+
+</style>
+
+<div class="container">
+
+    <div class="table-container">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <td>Nombre</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var medication in Model)
+                {
+                    <tr>
+                        <td>@medication.Name</td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2">
+
+                                <a asp-action="Edit" asp-route-id="@medication.Id" class="btn btn-primary">
+                                    Editar
+                                </a>
+
+                                <form asp-action="Delete" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger">
+                                        Eliminar
+                                    </button>
+                                </form>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

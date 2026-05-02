@@ -18,9 +18,67 @@
     }
 
     .bottom {
+        position: relative;
         margin-top: auto;
         padding: 1rem 20px;
     }
+
+        .bottom ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        .bottom li {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+    .settings-btn {
+        width: 100%;
+        text-align:start;
+        background: #171717;
+        color: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    .settings-menu {
+        position: absolute;
+        left: 20px;
+        bottom: 75px;
+        width: 220px;
+        background: #333;
+        color: white;
+        border-radius: 14px;
+        padding: 10px;
+        display: none;
+        flex-direction: column;
+        gap: 6px;
+        box-shadow: 0 10px 25px rgba(0,0,0,.4);
+        z-index: 1000;
+    }
+
+        .settings-menu.show {
+            display: flex;
+        }
+
+        .settings-menu a,
+        .settings-menu button {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+            .settings-menu a:hover,
+            .settings-menu button:hover {
+                background: #444;
+            }
 </style>
 
 <div class="sidebar-menu">
@@ -31,32 +89,57 @@
     <div class="middle">
         <ul class="">
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house-chimney"></i> Home</a>
+                <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house-chimney"></i>&nbsp; Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="User" asp-action="Add"><i class="bi bi-person-add"></i> Create User</a>
+                <a class="nav-link" asp-controller="User" asp-action="Add"><i class="bi bi-person-add"></i>&nbsp; Create User</a>
             </li>
-            @* <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
+           <li class="nav-item">
+                <a class="nav-link" asp-controller="Medication" asp-action="Catalog">Medicine</a>
             </li>
-            <li class="nav-item">
+            @*  <li class="nav-item">
                 <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
             </li> *@
         </ul>
     </div>
     
-    <div class="bottom" >
+    <div class="bottom">
+
         <ul>
-            <li class="nav-item">@User.Identity.Name</li>
-            <li class="nav-item"><a class="nav-link" asp-action="" asp-controller=""></a></li>
-            <li class="nav-item">
-                <form asp-action="Logout" asp-controller="Account" method="post">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="nav-link btn btn-link text-start w-100">
-                        <i class="fa-solid fa-right-from-bracket"></i> &nbsp; Logout
-                    </button>
-                </form>
-            </li>
+            <li><i class="fa-solid fa-circle-user"></i> &nbsp; @User.Identity.Name </li>
+
+            <li> <button id="settingsBtn" class="settings-btn"> <i class="fa-solid fa-gear"></i> &nbsp; Settings </button> </li>
         </ul>
+
+        <div id="settingsMenu" class="settings-menu">
+            <a href="#"> <i class="fa-solid fa-user"></i> Profile </a> 
+            <a href="#"> <i class="fa-solid fa-gear"></i> Settings </a>
+
+            <form asp-action="Logout" asp-controller="Account" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit">
+                    <i class="fa-solid fa-right-from-bracket"></i> 
+                    Logout
+                </button>
+            </form>
+        </div>
     </div>
 </div>
+
+<script>
+    const settingsBtn = document.getElementById("settingsBtn");
+    const settingsMenu = document.getElementById("settingsMenu");
+
+    settingsBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        settingsMenu.classList.toggle("show");
+    });
+
+    document.addEventListener("click", function () {
+        settingsMenu.classList.remove("show");
+    });
+
+    settingsMenu.addEventListener("click", function (e) {
+        e.stopPropagation();
+    });
+</script>
