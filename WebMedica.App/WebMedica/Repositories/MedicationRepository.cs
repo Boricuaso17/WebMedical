@@ -21,9 +21,19 @@ namespace WebMedical.Repositories
             return medication;
         }
 
-        public Task<Medication> DeleteMedicationAsync(int id)
+        public async Task<Medication> DeleteMedicationAsync(int id)
         {
-            throw new NotImplementedException();
+            var medication = await _webMedicalDbContext.Medication.FirstOrDefaultAsync(m => m.Id == id);
+
+            if(medication == null)
+            {
+                return null;
+            }
+
+            _webMedicalDbContext.Medication.Remove(medication);
+            await _webMedicalDbContext.SaveChangesAsync();
+
+            return medication;
         }
 
         public async Task<IEnumerable<Medication>> GetAllAsync()

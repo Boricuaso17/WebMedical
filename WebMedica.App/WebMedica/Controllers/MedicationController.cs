@@ -27,7 +27,7 @@ namespace WebMedical.Controllers
             var medication = await _medicationRepository.AddMedicationAsync(model);
 
             TempData["SuccessMessage"] = $"Medication {model.Name} was added successfuly";
-            return RedirectToAction("Add");
+            return RedirectToAction("Catalog");
         }
 
         [HttpGet]
@@ -42,11 +42,17 @@ namespace WebMedical.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Medication model)
         {
-
             var medication = await _medicationRepository.UpdateMedicationAsync(model);
 
             TempData["SuccessMessage"] = $"Medication {medication.Name} was succesfuly edited";
-            return RedirectToAction("Add", medication);
+            return RedirectToAction("Catalog");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var medication = await _medicationRepository.DeleteMedicationAsync(id);
+            return RedirectToAction("Catalog");
         }
 
         [HttpGet]
