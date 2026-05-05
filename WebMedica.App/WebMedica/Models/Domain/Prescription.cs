@@ -32,6 +32,8 @@ namespace WebMedical.Models.Domain
         public int DiagnosisId { get; set; }
         public Diagnosis Diagnosis { get; set; }
 
+        public ICollection<PrescriptionDetails> PrescriptionDetails { get; set; } = new List<PrescriptionDetails>();
+
 
 
     }
