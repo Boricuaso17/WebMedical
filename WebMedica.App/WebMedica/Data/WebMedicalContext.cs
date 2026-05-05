@@ -21,7 +21,7 @@ namespace WebMedical.Data
         #region DbSet Declarations
         public DbSet<UserProfile> UserProfile { get; set; }
         //public DbSet<Diagnosis> Diagnosis { get; set; }
-        //public DbSet<Appointment> Appointment { get; set; }
+        public DbSet<Appointment> Appointment { get; set; }
         //public DbSet<Prescription> Prescription { get; set; }
         #endregion 
 

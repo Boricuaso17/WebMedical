@@ -1,98 +1,16 @@
-﻿@model WebMedical.Models.Domain.Prescription
+﻿@model WebMedical.Models.ViewModel.AddPrescriptionRequest
 
-@{
-    ViewData["Title"] = "Add";
-}
 
-<h1>Add</h1>
+<div class="container">
+    <div>
+        <input type="date" asp-for="Date" />
 
-<h4>Prescription</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Add">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="AppointmentId" class="control-label"></label>
-                <select asp-for="AppointmentId" class ="form-control" asp-items="ViewBag.AppointmentId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrescribedById" class="control-label"></label>
-                <input asp-for="PrescribedById" class="form-control" />
-                <span asp-validation-for="PrescribedById" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PatientId" class="control-label"></label>
-                <input asp-for="PatientId" class="form-control" />
-                <span asp-validation-for="PatientId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiagnosisId" class="control-label"></label>
-                <select asp-for="DiagnosisId" class ="form-control" asp-items="ViewBag.DiagnosisId"></select>
-            </div>
+        <textarea type="text" asp-for="Notes"></textarea>
 
-            <div class="form-group">
-                <label asp-for="Dose" class="control-label"></label>
-                <input asp-for="Dose" class="form-control" />
-                <span asp-validation-for="Dose" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Frequency" class="control-label"></label>
-                <input asp-for="Frequency" class="form-control" />
-                <span asp-validation-for="Frequency" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Duration" class="control-label"></label>
-                <input asp-for="Duration" class="form-control" />
-                <span asp-validation-for="Duration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Instruction" class="control-label"></label>
-                <input asp-for="Instruction" class="form-control" />
-                <span asp-validation-for="Instruction" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PatientId" class="control-label"></label>
-                <input asp-for="PatientId" class="form-control" />
-                <span asp-validation-for="PatientId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        <input type="number" asp-for="PatientId" value="" />
+        <input type="number" value="@User.Identity.Name" />
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+</div>
