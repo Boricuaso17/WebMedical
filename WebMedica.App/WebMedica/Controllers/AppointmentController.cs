@@ -32,13 +32,38 @@ namespace WebMedical.Controllers
              {
                 
 
-                 return View("Index");
+                 return RedirectToAction("Add");
              }
 
              var appointment = await _appointmentRepository.AddAsync(model);
 
+            TempData["SuccessMessage"] = $"Appointment on {appointment.Date} added successfully";
             return View(appointment);
+         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var appointment = _appointmentRepository.GetAppointmentAsync(id);
+
+            return RedirectToAction("Add", appointment);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(Appointment model)
+        {
+
+            var appointment = await _appointmentRepository.UpdateAsync(model);
+
+            return RedirectToAction("Add", appointment);
+        }
+
+        public IActionResult AppointmentsByDateRange(DateOnly startDate, DateOnly endDate)
+        {
+            var appointments = _appointmentRepository
+                .GetAppointmentsByDateAsync(startDate, endDate);
+
+            return View(appointments);
+        }
     }
 }

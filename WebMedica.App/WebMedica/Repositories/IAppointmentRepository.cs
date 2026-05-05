@@ -10,5 +10,6 @@ namespace WebMedical.Repositories
         Task<Appointment> UpdateAsync(Appointment appointment);
         Task<Appointment> DeleteAsync(int id);
         Task<Appointment> AddAsync(Appointment appointment);
+        Task<List<Appointment>> GetAppointmentsByDateAsync(DateOnly startDate, DateOnly endDate);
     }
 }

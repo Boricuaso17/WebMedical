@@ -3,7 +3,10 @@
 <div class="container">
     <div>
         <form method="post" asp-action="Add" asp-controller="Appointment">
-            <input asp-for="Id" value="@Model.Id" hidden />
+
+            @if(ViewBag.Action == "Edit") {
+                <input  asp-for="@Model.Id" hidden />
+            }
             <input asp-for="Date" type="date" />
             <input asp-for="Reason" type="text" />
             <textarea asp-for="Notes"></textarea>

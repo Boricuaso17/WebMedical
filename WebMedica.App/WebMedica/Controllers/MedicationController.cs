@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using WebMedical.Models.Domain;
 using WebMedical.Repositories;
 

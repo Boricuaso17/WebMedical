@@ -35,6 +35,15 @@ namespace WebMedical.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<List<Appointment>> GetAppointmentsByDateAsync(DateOnly startDate, DateOnly endDate)
+        {
+           var appointments = _webMedicalDbContext.Appointment
+                .Where(a => a.Date >= startDate && a.Date <= endDate)
+                .ToList();
+
+            return appointments;
+        }
+
         public Task<Appointment> UpdateAsync(Appointment appointment)
         {
             throw new NotImplementedException();
