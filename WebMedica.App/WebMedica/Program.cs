@@ -27,8 +27,8 @@ builder.Services.AddIdentity<UserLogin, IdentityRole>(options =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-    options.SlidingExpiration = true;
+    //options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+    //options.SlidingExpiration = true;
 
     options.LoginPath = "/Account/Login";
     options.LogoutPath = "/Account/Logout";
@@ -36,8 +36,10 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IMedicationRepository, MedicationRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IDiagnosisRepository, DiagnosisRepository>();
+builder.Services.AddScoped<IMedicationRepository, MedicationRepository>();
+
 
 var app = builder.Build();
 

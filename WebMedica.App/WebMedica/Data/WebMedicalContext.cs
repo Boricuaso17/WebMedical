@@ -38,5 +38,6 @@ namespace WebMedical.Data
         }
         public DbSet<WebMedical.Models.Domain.Medication> Medication { get; set; } = default!;
         public DbSet<WebMedical.Models.Domain.Prescription> Prescription { get; set; } = default!;
+        public DbSet<WebMedical.Models.Domain.Diagnosis> Diagnosis { get; set; } = default!;
     }
 }

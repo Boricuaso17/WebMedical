@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 using WebMedical.Models.Domain;
 using WebMedical.Repositories;
 
@@ -42,11 +43,13 @@ namespace WebMedical.Controllers
          }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var appointment = _appointmentRepository.GetAppointmentAsync(id);
+            var appointment = await _appointmentRepository.GetAppointmentAsync(id);
 
-            return RedirectToAction("Add", appointment);
+            ViewBag.Action = "Edit";
+
+            return View("Add", appointment);
         }
 
         [HttpPost]
@@ -55,15 +58,24 @@ namespace WebMedical.Controllers
 
             var appointment = await _appointmentRepository.UpdateAsync(model);
 
-            return RedirectToAction("Add", appointment);
+
+            return View("Index");
         }
 
-        public IActionResult AppointmentsByDateRange(DateOnly startDate, DateOnly endDate)
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
-            var appointments = _appointmentRepository
+            var appointment = await _appointmentRepository.DeleteAsync(id);
+
+            return View("Index");
+        }
+
+        public async Task<IActionResult> GetAppointmentsByDateRange(DateOnly startDate, DateOnly endDate)
+        {
+            var appointments = await _appointmentRepository
                 .GetAppointmentsByDateAsync(startDate, endDate);
 
-            return View(appointments);
+            return Json(appointments);
         }
     }
 }

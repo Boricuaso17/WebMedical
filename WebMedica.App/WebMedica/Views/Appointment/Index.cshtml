@@ -1,0 +1,164 @@
+﻿@{
+    ViewData["Title"] = "Appointments";
+}
+
+<style>
+    .navBar {
+        width: 100%;
+        height: 4rem;
+        background: #1e1e1e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .table-container {
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 5rem;
+    }
+
+    .navBar input {
+        height: 2.5rem;
+        padding: 1rem;
+        border: none;
+        border-radius: 20px;
+        transition: height .4s;
+    }
+
+        .navBar input:hover {
+            height: 3rem;
+        }
+</style>
+
+<form id="antiForgeryForm">
+    @Html.AntiForgeryToken()
+</form>
+
+<div class="navBar">
+    <input type="date" id="startDate" />
+    <input type="date" id="endDate" />
+</div>
+
+<div class="container">
+    <div class="table-container">
+        <table id="appointmentsTable" class="table table-striped table-hover">
+            <thead class="table-dark"></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    function getAntiForgeryToken() {
+        return document.querySelector('input[name="__RequestVerificationToken"]').value;
+    }
+
+    function setInitialDateRange() {
+        var today = new Date();
+
+        var year = today.getFullYear();
+        var month = String(today.getMonth() + 1).padStart(2, '0');
+
+        var firstDay = `${year}-${month}-01`;
+
+        var lastDayDate = new Date(year, today.getMonth() + 1, 0);
+        var lastDay = String(lastDayDate.getDate()).padStart(2, '0');
+
+        var lastDate = `${year}-${month}-${lastDay}`;
+
+        document.querySelector('#startDate').value = firstDay;
+        document.querySelector('#endDate').value = lastDate;
+    }
+
+    async function updateTable() {
+        try {
+
+            var startDate = document.querySelector("#startDate").value;
+            var endDate = document.querySelector("#endDate").value;
+
+            const response = await fetch(`/Appointment/GetAppointmentsByDateRange?startDate=${startDate}&endDate=${endDate}`);
+            const data = await response.json();
+
+            var table = $('#appointmentsTable');
+            var thead = table.find('thead');
+            var tbody = table.find('tbody');
+
+            thead.empty();
+            tbody.empty();
+
+            var headerRow = $('<tr>');
+            headerRow.append('<th>Date</th>');
+            headerRow.append('<th>Time</th>');
+            headerRow.append('<th>Reason</th>');
+            headerRow.append('<th>Notes</th>');
+            headerRow.append('<th>Actions</th>');
+            thead.append(headerRow);
+
+            data.forEach(function (appointment) {
+
+                var row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${appointment.date}</td>
+                    <td>${appointment.time}</td>
+                    <td>${appointment.reason}</td>
+                    <td>${appointment.notes}</td>
+                `;
+
+                var actionsTd = document.createElement("td");
+                actionsTd.classList.add("d-flex", "gap-2");
+
+                var editBtn = document.createElement("a");
+                editBtn.href = `/Appointment/Edit?id=${appointment.id}`;
+                editBtn.classList.add("btn", "btn-primary");
+                editBtn.innerHTML = `<i class="bi bi-pencil-square"></i>`;
+
+                var deleteBtn = document.createElement("button");
+                deleteBtn.type = "button";
+                deleteBtn.classList.add("btn", "btn-danger");
+                deleteBtn.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+
+                deleteBtn.addEventListener("click", async function () {
+                    if (!confirm("¿Estás seguro de eliminar esta cita?")) return;
+
+                    try {
+                        const response = await fetch(`/Appointment/Delete?id=${appointment.id}`, {
+                            method: "POST",
+                            headers: {
+                                "RequestVerificationToken": getAntiForgeryToken()
+                            }
+                        });
+
+                        if (response.ok) {
+                            row.remove();
+                        } else {
+                            console.error("Error al eliminar");
+                        }
+
+                    } catch (error) {
+                        console.error(error);
+                    }
+                });
+
+                actionsTd.appendChild(editBtn);
+                actionsTd.appendChild(deleteBtn);
+                row.appendChild(actionsTd);
+
+                document.querySelector("#appointmentsTable tbody").appendChild(row);
+            });
+
+        } catch (error) {
+            console.error('Error fetching appointments:', error);
+        }
+    }
+
+    document.querySelector("#startDate").addEventListener("change", updateTable);
+    document.querySelector("#endDate").addEventListener("change", updateTable);
+
+    setInitialDateRange();
+    updateTable();
+
+</script>

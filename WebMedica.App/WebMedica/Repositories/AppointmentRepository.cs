@@ -1,5 +1,6 @@
 ﻿using WebMedical.Data;
 using WebMedical.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebMedical.Repositories
 {
@@ -20,22 +21,34 @@ namespace WebMedical.Repositories
             return appointment;
         }
 
-        public Task<Appointment> DeleteAsync(int id)
+        public async Task<Appointment?> DeleteAsync(int id)
+        {
+            var appointment = await _webMedicalDbContext.Appointment.FirstOrDefaultAsync(a => a.Id == id);
+
+            if (appointment == null)
+            {
+                return null;
+            }
+
+            _webMedicalDbContext.Appointment.Remove(appointment);
+            await _webMedicalDbContext.SaveChangesAsync();
+
+            return appointment;
+        }
+
+        public async Task<List<Appointment>> GetAllAppointmentsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Appointment>> GetAllAppointmentsAsync()
+        public async Task<Appointment> GetAppointmentAsync(int id)
         {
-            throw new NotImplementedException();
+            var appointment = await _webMedicalDbContext.Appointment.FirstOrDefaultAsync(a => a.Id == id);
+
+            return appointment;
         }
 
-        public Task<Appointment> GetAppointmentAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Appointment>> GetAppointmentsByDateAsync(DateOnly startDate, DateOnly endDate)
+        public async Task<List<Appointment>> GetAppointmentsByDateAsync(DateOnly startDate, DateOnly endDate)
         {
            var appointments = _webMedicalDbContext.Appointment
                 .Where(a => a.Date >= startDate && a.Date <= endDate)
@@ -44,9 +57,12 @@ namespace WebMedical.Repositories
             return appointments;
         }
 
-        public Task<Appointment> UpdateAsync(Appointment appointment)
+        public async Task<Appointment> UpdateAsync(Appointment appointment)
         {
-            throw new NotImplementedException();
+             _webMedicalDbContext.Appointment.Update(appointment);
+            await _webMedicalDbContext.SaveChangesAsync();
+
+            return appointment;
         }
     }
 }
