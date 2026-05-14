@@ -73,7 +73,7 @@ namespace WebMedical.Models.Domain
         
         public UserLogin UserLogin { get; set; }
 
-        // public ICollection<Diagnosis> Diagnoses { get; set; } = new List<Diagnosis>();
+        public ICollection<UserDiagnosis> UserDiagnosis { get; set; } = new List<UserDiagnosis>();
 
         // public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>();
 

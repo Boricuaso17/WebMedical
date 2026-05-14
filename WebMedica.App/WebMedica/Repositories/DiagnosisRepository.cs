@@ -1,4 +1,7 @@
-﻿using WebMedical.Data;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using WebMedical.Data;
 using WebMedical.Models.Domain;
 
 namespace WebMedical.Repositories
@@ -14,7 +17,7 @@ namespace WebMedical.Repositories
 
         public async Task<Diagnosis> AddAsync(Diagnosis diagnosis)
         {
-            await _webMedicalDbContext.AddAsync(diagnosis);
+            await _webMedicalDbContext.Diagnosis.AddAsync(diagnosis);
             await _webMedicalDbContext.SaveChangesAsync();
 
             return diagnosis;
@@ -25,17 +28,25 @@ namespace WebMedical.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Diagnosis> GetAllDiagnosisAsync()
+        public async Task<List<Diagnosis>> GetAllDiagnosisAsync()
         {
-            throw new NotImplementedException();
+            var diagnoses = await _webMedicalDbContext.Diagnosis.ToListAsync();
+
+            return diagnoses;
+
         }
 
-        public Task<Diagnosis> GetDiagnosisAsync(int id)
+        public Task<UserDiagnosis> GetDiagnosisAsync(int id)
         {
             throw new NotImplementedException();
         }
 
         public Task<Diagnosis> UpdateAsync(Diagnosis diagnosis)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Diagnosis> IDiagnosisRepository.GetDiagnosisAsync(int id)
         {
             throw new NotImplementedException();
         }

@@ -32,5 +32,13 @@ namespace WebMedical.Controllers
             }
             return View(diagnosis);
         }
+
+        public async Task<IActionResult> Diagnoses(int id)
+        {
+
+            var diagnoses = await _diagonsisRepository.GetAllDiagnosisAsync();
+
+            return View(diagnoses);
+        }
     }
 }

@@ -20,9 +20,11 @@ namespace WebMedical.Data
         //Name of the tables in the data base WebMedicalDb
         #region DbSet Declarations
         public DbSet<UserProfile> UserProfile { get; set; }
-        //public DbSet<Diagnosis> Diagnosis { get; set; }
+        public DbSet<UserDiagnosis> UserDiagnosis { get; set; }
+        public DbSet<Diagnosis> Diagnosis { get; set; }
         public DbSet<Appointment> Appointment { get; set; }
-        //public DbSet<Prescription> Prescription { get; set; }
+        public DbSet<Prescription> Prescription { get; set; }
+        public DbSet<Medication> Medication { get; set; }
         #endregion 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,8 +38,5 @@ namespace WebMedical.Data
 
             base.OnModelCreating(modelBuilder);
         }
-        public DbSet<WebMedical.Models.Domain.Medication> Medication { get; set; } = default!;
-        public DbSet<WebMedical.Models.Domain.Prescription> Prescription { get; set; } = default!;
-        public DbSet<WebMedical.Models.Domain.Diagnosis> Diagnosis { get; set; } = default!;
     }
 }

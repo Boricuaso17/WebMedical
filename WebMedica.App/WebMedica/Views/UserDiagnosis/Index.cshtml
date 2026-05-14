@@ -1,0 +1,27 @@
+﻿@model List<WebMedical.Models.Domain.UserDiagnosis>
+
+
+<div class="container">
+
+    <a asp-action="Add" asp-controller="UserDiagnosis" asp-route-userId="@ViewBag.UserId">Add Diagnosis</a>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                   <td>Status</td>
+                   <td>Notes</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var diagnosis in Model)
+                {
+                    <tr>
+                        <td>@diagnosis.Status</td>
+                        <td>@diagnosis.Notes</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
