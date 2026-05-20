@@ -50,6 +50,23 @@
             background: #2a2a2a;
         }
 
+input, textarea, select {
+    border-radius: 10px;
+    border: 1px solid black;
+    height: 2.5rem;
+    padding-left: .8rem;
+}
+
+button {
+    background: white;
+    border-radius: 15px;
+    border: none;
+    height: 2.5rem;
+    color: black;
+    margin-top: 1rem;
+}
+
+
 /* Contenido principal */
 .main-content {
     flex: 1 1 auto;

@@ -1,11 +1,17 @@
 ﻿@model WebMedical.Models.Domain.Appointment
 
+<style>
+    .formContainer {
+
+    }
+</style>
+
 <div class="container">
-    <div>
+    <div class="formContainer">
         <form method="post" asp-action="@ViewBag.Action" asp-controller="Appointment">
 
             @if(ViewBag.Action == "Edit") {
-                <input  asp-for="@Model.Id" hidden />
+                <input  asp-for="@Model.Id" type="hidden" />
             }
             <input asp-for="Date" type="date" />
             <input asp-for="Reason" type="text" />

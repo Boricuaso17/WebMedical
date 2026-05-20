@@ -19,14 +19,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             @* <input asp-for="Id" value="@Model.Id" hidden/> *@
-            <div class="form-group">
+            
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name"  />
                 <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            
                 <button type="submit" class="btn btn-primary"> @ViewBag.Action</button>
-            </div>
         </form>
     </div>
 </div>

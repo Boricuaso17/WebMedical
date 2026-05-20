@@ -17,6 +17,11 @@
     input[type="number"] {
         -moz-appearance: textfield;
     }
+
+    .inputGroup{
+        display: flex;
+        flex-direction: column;
+    }
 </style>
 
 
@@ -37,130 +42,126 @@
             <input type="number" asp-for="@Model.Id" hidden />
             <input type="text" asp-for="@Model.Guid" hidden />
 
-            <div class="form-group">
+            
+            <div class="inputGroup">
                 <label asp-for="SocialSecurityNumber" class="control-label"></label>
-                <input asp-for="SocialSecurityNumber" type="number" class="form-control" />
+                <input asp-for="SocialSecurityNumber" type="number" />
                 <span asp-validation-for="SocialSecurityNumber" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="MiddleName" class="control-label"></label>
-                <input asp-for="MiddleName" class="form-control" />
+                <input asp-for="MiddleName" />
                 <span asp-validation-for="MiddleName" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+                <input asp-for="LastName" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="LastName2" class="control-label"></label>
-                <input asp-for="LastName2" class="form-control" />
+                <input asp-for="LastName2" />
                 <span asp-validation-for="LastName2" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                <input asp-for="DateOfBirth" type="date" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
+                <input asp-for="Phone" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="FisicalAddress" class="control-label"></label>
-                <input asp-for="FisicalAddress" class="form-control" />
+                <input asp-for="FisicalAddress" />
                 <span asp-validation-for="FisicalAddress" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="FisicalAddressLine2" class="control-label"></label>
-                <input asp-for="FisicalAddressLine2" class="form-control" />
+                <input asp-for="FisicalAddressLine2" />
                 <span asp-validation-for="FisicalAddressLine2" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Town"  class="control-label"></label>
-                <select asp-for="Town" asp-items="Html.GetEnumSelectList<Town>()" class="form-control"></select>
+            <div class="inputGroup">
+                <label asp-for="Town" class="control-label"></label>
+                <select asp-for="Town" asp-items="Html.GetEnumSelectList<Town>()"></select>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="State" class="control-label"></label>
-                <select asp-for="State" asp-items="Html.GetEnumSelectList<State>()" class="form-control"></select>
+                <select asp-for="State" asp-items="Html.GetEnumSelectList<State>()"></select>
                 <span asp-validation-for="State" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="Zipcode" class="control-label"></label>
-                <input asp-for="Zipcode" class="form-control" />
+                <input asp-for="Zipcode" />
                 <span asp-validation-for="Zipcode" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="PostalAddress" class="control-label"></label>
-                <input asp-for="PostalAddress" class="form-control" />
+                <input asp-for="PostalAddress" />
                 <span asp-validation-for="PostalAddress" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="PostalAddressLine2" class="control-label"></label>
-                <input asp-for="PostalAddressLine2" class="form-control" />
+                <input asp-for="PostalAddressLine2" />
                 <span asp-validation-for="PostalAddressLine2" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="inputGroup">
                 <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" asp-items="Html.GetEnumSelectList<Roles>()" class="form-control"></select>
-            </div>
-
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
+                <select asp-for="Role" asp-items="Html.GetEnumSelectList<Roles>()"></select>
             </div>
 
             @{ if(ViewBag.Action == "Add") {
-                <div class="form-group">
-                    <label asp-for="Username" class="control-label"></label>
-                    <input asp-for="Username" class="form-control" />
-                    <span asp-validation-for="Username" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="ConfirmPassword" class="control-label"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                
+                    <div class="inputGroup">
+                        <label asp-for="Username" class="control-label"></label>
+                        <input asp-for="Username" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
                     </div>
+
+                    <div class="inputGroup">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="inputGroup">
+                        <label asp-for="ConfirmPassword" class="control-label"></label>
+                        <input asp-for="ConfirmPassword" type="password" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="inputGroup">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" type="email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
                 }
             }
 
-            <div class="form-group">
+            
                 <input type="submit" value="@ViewBag.Action" class="btn btn-primary" />
-            </div>
         </form>
     </div>
 </div>
