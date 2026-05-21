@@ -14,42 +14,6 @@
     overflow-x: hidden;
 }
 
-/* Sidebar */
-.sidebar-menu {
-    width: 250px;
-    min-height: 100vh;
-    background: #171717;
-    color: white;
-    flex-shrink: 0;
-    transition: width 0.3s ease;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-    /* Sidebar colapsado */
-    .sidebar-menu.collapsed {
-        width: 70px;
-    }
-
-    /* Listas solo dentro del sidebar */
-    .sidebar-menu ul {
-        list-style: none;
-        margin: 0;
-        padding: 1rem 0;
-    }
-
-    .sidebar-menu .nav-link {
-        color: white;
-        padding: 10px 20px;
-        display: block;
-        text-decoration: none;
-    }
-
-        .sidebar-menu .nav-link:hover {
-            background: #2a2a2a;
-        }
-
 input, textarea, select {
     border-radius: 10px;
     border: 1px solid black;

@@ -1,28 +1,37 @@
 ﻿<style>
+
+    /* SideBar ======================================================================================================================================================================================*/
+    /* Sidebar */
     .sidebar-menu {
         width: 250px;
         min-height: 100vh;
         background: #171717;
         color: white;
+        flex-shrink: 0;
+        transition: width 0.3s ease;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
     }
+
+        /* Sidebar colapsado */
+        .sidebar-menu.collapsed {
+            width: 70px;
+        }
+
+        /* Listas solo dentro del sidebar */
+        .sidebar-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 1rem 0;
+        }
 
         .sidebar-menu img {
             height: 80px;
             margin: .8rem 0 0 .8rem;
         }
 
-    ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
-
-        ul li {
-            text-decoration: none;
-        }
-
+    /* Sidebar END ==========================================================================================================================================================================================*/
     .top {
     }
 
@@ -43,16 +52,24 @@
             color: white;
         }
 
-    .settings-btn {
-        width: 100%;
-        text-align: start;
-        background: #171717;
-        color: white;
+        ul li{
         margin: 0;
-        padding: 0;
-        border: none;
-        cursor: pointer;
+        }
+
+        ul li:hover{
+            background: #444444;
+        }
+
+    li a {
+        display: block;
+        text-decoration: none;
+        color: white;
+        height: 100%;
+        width: 100%;
+        padding: 10px 20px;
     }
+
+        /* Settings Menu =========================================================================================================================================================================================*/
     .settings-menu {
         position: absolute;
         left: 20px;
@@ -102,6 +119,18 @@
             .settings-menu form button {
                 width: 100%;
             }
+
+    .settings-btn {
+        width: 100%;
+        text-align: start;
+        background: #171717;
+        color: white;
+        margin: 0;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+    /* Settings Menu END ======================================================================================================================================================================================*/
 </style>
 
 <div class="sidebar-menu">
@@ -111,17 +140,17 @@
 
     <div class="middle">
         <ul class="">
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house-chimney"></i>&nbsp; Home</a>
+            <li >
+                <a c asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house-chimney"></i>&nbsp; Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="User" asp-action="Add"><i class="bi bi-person-add"></i>&nbsp; Create User</a>
+            <li >
+                <a  asp-controller="User" asp-action="Add"><i class="bi bi-person-add"></i>&nbsp; Create User</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Appointment" asp-action="Index">Appointments</a>
+            <li >
+                <a  asp-controller="Appointment" asp-action="Index">Appointments</a>
             </li>
-           <li class="nav-item">
-                <a class="nav-link" asp-controller="Medication" asp-action="Catalog">Medicine</a>
+           <li c>
+                <a  asp-controller="Medication" asp-action="Catalog">Medicine</a>
             </li>
         </ul>
     </div>
@@ -129,11 +158,12 @@
     <div class="bottom">
 
         <ul>
-            <li><i class="fa-solid fa-circle-user"></i> &nbsp; @User.Identity.Name </li>
+            <li ><i class="fa-solid fa-circle-user"></i> &nbsp; @User.Identity.Name </li>
 
-            <li> <button id="settingsBtn" class="settings-btn"> <i class="fa-solid fa-gear"></i> &nbsp; Settings </button> </li>
+            <li id="settingsBtn" > <i class="fa-solid fa-gear"></i> &nbsp; Settings </button> </li>
         </ul>
 
+        @* Settings Menu *@
         <div id="settingsMenu" class="settings-menu">
             <a href="#"> <i class="fa-solid fa-user"></i> Profile </a> 
             <a href="#"> <i class="fa-solid fa-gear"></i> Settings </a>
