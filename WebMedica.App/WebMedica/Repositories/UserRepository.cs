@@ -71,5 +71,12 @@ namespace WebMedical.Repositories
                 return null;
             }
         }
+
+        public async Task<UserProfile> GetUserBySSN(string ssn)
+        {
+            var user = await _webMedicalDbContext.UserProfile.FirstOrDefaultAsync(u => u.SocialSecurityNumber == ssn);
+
+            return user;
+        }
     }
 }

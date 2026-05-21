@@ -10,6 +10,7 @@ namespace WebMedical.Repositories
         Task<UserProfile> GetUserAsync(Guid guid);
 
         Task<List<UserProfile>> GetUserByNameAsync(string name);
+        Task<UserProfile> GetUserBySSN(string ssn);
 
         Task<UserProfile> AddSync(UserProfile user);
 

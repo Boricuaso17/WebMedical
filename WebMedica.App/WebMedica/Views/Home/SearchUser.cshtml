@@ -8,7 +8,7 @@
         background: #181818;
         justify-content: space-between;
         align-items: center;
-        height: 10rem;
+        height: 15rem;
         width: 20rem;
         border-radius: 20px;
         padding: 1.5rem;
@@ -24,11 +24,15 @@
         border: none;
         padding: 0 1rem;
         text-decoration: none;
-        display:flex;
+        display: flex;
         align-items: center;
         justify-content: center;
-        color: black;
+        color: white;
+    }
 
+    .cardContainer a:hover {
+            padding: 15px;
+            transition: 0.3s;
     }
 
     .btnDelete {
@@ -39,16 +43,20 @@
         background: yellow;
     }
 
-
 </style>
 
-<div class="d-flex flex-wrap gap-3 justify-content-start">
-    @foreach (var user in Model)
-    {
-        <div class="cardContainer">
-            <h5>@user.FullName</h5>
+<div class="container">
 
-            <a class="actionBtn" asp-action="Index" asp-controller="User" asp-route-guid="@user.Guid" ><i class="fa-solid fa-clipboard-list"></i> &nbsp; Record</a>
-        </div>
-    }
+    <h3 class="m-3">Usuario</h3>
+
+    <div class="d-flex flex-wrap gap-3 justify-content-start">
+        @foreach (var user in Model)
+        {
+            <div class="cardContainer">
+                <h5>@user.FullName</h5>
+
+                <a class="actionBtn" asp-action="Index" asp-controller="User" asp-route-guid="@user.Guid"><i class="fa-solid fa-clipboard-list"></i> &nbsp; Record</a>
+            </div>
+        }
+    </div>
 </div>
