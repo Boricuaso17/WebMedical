@@ -113,12 +113,12 @@
 
                 var editBtn = document.createElement("a");
                 editBtn.href = `/Appointment/Edit?id=${appointment.id}`;
-                editBtn.classList.add("btn", "btn-primary");
+                editBtn.classList.add("btn", "btnEdit");
                 editBtn.innerHTML = `<i class="bi bi-pencil-square"></i>`;
 
                 var deleteBtn = document.createElement("button");
                 deleteBtn.type = "button";
-                deleteBtn.classList.add("btn", "btn-danger");
+                deleteBtn.classList.add("btn", "btnDelete");
                 deleteBtn.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
 
                 deleteBtn.addEventListener("click", async function () {
