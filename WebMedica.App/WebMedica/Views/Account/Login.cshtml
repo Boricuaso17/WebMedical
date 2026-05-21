@@ -22,19 +22,12 @@
         height: 100%;
     }
 
-    .form-group label {
-        color: white;
-        margin-top: 1.5rem;
-    }
-
-    .form-group input {
-    }
-
     .content {
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        color:white;
     }
 
     form button {
@@ -50,22 +43,20 @@
         
         <form asp-action="Login" asp-controller="Account">
             <div class="content">
-                <div class="form-top">
                     
-                        <label asp-for="Username" class="control-label">Username</label>
-                        <input asp-for="Username"  />
-                        <span asp-validation-for="Username" class="text-danger"></span>
-                    </div>
+                <label asp-for="Username" class="control-label">Username</label>
+                <input asp-for="Username" />
+                <span asp-validation-for="Username" class="text-danger"></span>
 
                     
-                        <label asp-for="Password" class="control-label">Password</label>
-                        <input asp-for="Password" type="password"  />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
+                <label asp-for="Password" class="control-label">Password</label>
+                <input asp-for="Password" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
 
                 <div>
                     <button class="" type="submit"> Login</button>
                 </div>
+            </div>
         </form>
     </div>
 </div>
