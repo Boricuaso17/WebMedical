@@ -75,7 +75,7 @@
             <div class="sidebar">
                 <a asp-action="Add" asp-controller="Appointment" asp-route-id="@Model.Id"><i class="fa-regular fa-calendar-days"></i> &nbsp; Appointments</a>
                 <a asp-action="Index" asp-controller="UserDiagnosis" asp-route-userId="@Model.Id"><i class="fa-solid fa-stethoscope"></i> &nbsp; Diagnostics</a>
-                <a asp-action="" asp-controller="" asp-route-id="@Model.Id+"><i class="fa-solid fa-file-prescription"></i> &nbsp; Prescriptions</a>
+                <a asp-action="Record" asp-controller="Prescription" asp-route-patientId="@Model.Id"><i class="fa-solid fa-file-prescription"></i> &nbsp; Prescriptions</a>
             </div>
         </div>
 

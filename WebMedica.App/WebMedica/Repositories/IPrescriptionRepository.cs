@@ -1,14 +1,14 @@
-﻿using WebMedical.Models.Domain;
+using WebMedical.Models.Domain;
 
 namespace WebMedical.Repositories
 {
     public interface IPrescriptionRepository
     {
-
-        Task<IEnumerable<Prescription>> GetAllAsync();
-        Task<Prescription> GetPrescriptionAsync(int id);
+        Task<List<Prescription>> GetAllAsync();
+        Task<List<Prescription>> GetAllByPatientIdAsync(int patientId);
+        Task<Prescription?> GetPrescriptionAsync(int id);
         Task<Prescription> AddAsync(Prescription prescription);
-        Task<Prescription> UpdateAsync(Prescription prescription);
-        Task<Prescription> DeleteAsync(int id);
+        Task<Prescription?> UpdateAsync(Prescription prescription);
+        Task<Prescription?> DeleteAsync(int id);
     }
 }

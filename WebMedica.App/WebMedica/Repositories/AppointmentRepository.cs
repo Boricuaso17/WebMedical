@@ -38,7 +38,11 @@ namespace WebMedical.Repositories
 
         public async Task<List<Appointment>> GetAllAppointmentsAsync()
         {
-            throw new NotImplementedException();
+            var appointments = await _webMedicalDbContext.Appointment
+                .OrderByDescending(a => a.Date)
+                .ToListAsync();
+
+            return appointments;
         }
 
         public async Task<Appointment> GetAppointmentAsync(int id)

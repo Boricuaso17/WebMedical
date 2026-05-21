@@ -36,6 +36,18 @@ namespace WebMedical.Data
                 .WithOne(p => p.UserLogin)
                 .HasForeignKey<UserLogin>(p => p.UserProfileId);
 
+            modelBuilder.Entity<Prescription>()
+                .HasOne(p => p.Patient)
+                .WithMany()
+                .HasForeignKey(p => p.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Prescription>()
+                .HasOne(p => p.PrescribedBy)
+                .WithMany()
+                .HasForeignKey(p => p.PrescribedById)
+                .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(modelBuilder);
         }
     }

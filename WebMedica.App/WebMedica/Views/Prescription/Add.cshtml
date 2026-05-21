@@ -1,16 +1,66 @@
-﻿@model WebMedical.Models.ViewModel.AddPrescriptionRequest
+@model WebMedical.Models.ViewModel.AddPrescriptionRequest
 
+@{
+    ViewData["Title"] = ViewBag.Action;
+}
 
 <div class="container">
-    <div>
-        <input type="date" asp-for="Date" />
+    <h1>@ViewBag.Action</h1>
+    <h4>Prescription</h4>
+    <hr />
 
-        <textarea type="text" asp-for="Notes"></textarea>
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="@ViewBag.Action" asp-controller="Prescription" method="post">
+                @Html.AntiForgeryToken()
 
-        <input type="number" asp-for="PatientId" value="" />
-        <input type="number" value="@User.Identity.Name" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @if (ViewBag.Action == "Edit")
+                {
+                    <input asp-for="Id" type="hidden" />
+                }
+
+                <input asp-for="PatientId" type="hidden" />
+                <input asp-for="PrescribedById" type="hidden" />
+
+                <div class="mb-3">
+                    <label asp-for="Date" class="control-label"></label>
+                    <input asp-for="Date" type="date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="AppointmentId" class="control-label">Appointment</label>
+                    <select asp-for="AppointmentId" asp-items="@Model.AppointmentList" class="form-select">
+                        <option value="">Select Appointment</option>
+                    </select>
+                    <span asp-validation-for="AppointmentId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DiagnosisId" class="control-label">Diagnosis</label>
+                    <select asp-for="DiagnosisId" asp-items="@Model.DiagnosisList" class="form-select">
+                        <option value="">Select Diagnosis</option>
+                    </select>
+                    <span asp-validation-for="DiagnosisId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Notes" class="control-label"></label>
+                    <textarea asp-for="Notes" class="form-control"></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
+                <a asp-action="Record" asp-route-patientId="@Model.PatientId" class="btn btn-secondary">Back</a>
+            </form>
+        </div>
     </div>
-
-
-
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
