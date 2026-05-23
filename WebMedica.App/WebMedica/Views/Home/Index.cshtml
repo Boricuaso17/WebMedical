@@ -14,16 +14,18 @@
         align-items: center;
         width: 80%;
         height: 30rem;
-        background: #2e2e2e;
+        background: #181818;
         margin-top: 5rem;
         color: white;
         padding: 3rem;
-        border-radius: 20px;
-        box-shadow: 5px 5px 5px rgba(0,0,0,0.25);
+        border-radius: 8px;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.35);
     }
 
     form {
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
         width: 100%;
     }
 
@@ -36,7 +38,7 @@
     }
     
     label{
-        margin-top: 4rem;
+        margin-top: 0;
     }
 
     input {
@@ -45,8 +47,6 @@
 
     button {
         width: 5rem;
-
-
     }
 
 </style>
@@ -61,7 +61,6 @@
     <div class="UserSearchContainer">
         <div class="inputContainer">
 
-            
             <div>
                 <form method="get" asp-action="SearchUser" asp-controller="Home">
                     <label asp-for="Name">Nombre</label>
@@ -69,8 +68,6 @@
                     <button type="submit">Search</button>
                 </form>
             </div>
-        
-            
             <div>
                 <form method="post" asp-action="SearchUserBySSN" asp-controller="Home">
                     <label asp-for="SocialSecurityNumber">Social Security Number</label>

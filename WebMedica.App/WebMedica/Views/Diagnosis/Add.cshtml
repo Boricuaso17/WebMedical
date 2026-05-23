@@ -1,32 +1,33 @@
-﻿@model WebMedical.Models.Domain.Diagnosis
+@model WebMedical.Models.Domain.Diagnosis
 
 @{
     ViewData["Title"] = "Add";
 }
 
-<h1>Add</h1>
+<div class="form-page">
+    <div class="form-modal">
+        <h1>Add</h1>
+        <h4>Diagnosis</h4>
 
-<h4>Diagnosis</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
         <form asp-action="Add">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
+            <div class="form-field">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name"  />
+                <input asp-for="Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
-            
+            </div>
+
+            <div class="form-field">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description"  />
+                <input asp-for="Description" />
                 <span asp-validation-for="Description" class="text-danger"></span>
-            
+            </div>
+
+            <div class="form-actions">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Diagnoses" class="btn btn-secondary">Back</a>
+            </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

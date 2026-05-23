@@ -1,18 +1,33 @@
-﻿@model WebMedical.Models.ViewModel.AddUserDiagnosisRequest
+@model WebMedical.Models.ViewModel.AddUserDiagnosisRequest
 
+<div class="form-page">
+    <div class="form-modal">
+        <h1>@ViewBag.Action</h1>
+        <h4>User Diagnosis</h4>
 
+        <form asp-action="@ViewBag.Action" asp-controller="UserDiagnosis" method="post">
+            <input asp-for="UserId" type="hidden" />
 
+            <div class="form-field">
+                <label asp-for="Notes"></label>
+                <input asp-for="Notes" type="text" />
+            </div>
 
-<div>
-    <form asp-action="@ViewBag.Action" asp-controller="UserDiagnosis" method="post">
-        <input asp-for="UserId" type="hidden" />
+            <div class="form-field">
+                <label asp-for="Status"></label>
+                <input asp-for="Status" type="text" />
+            </div>
 
-        <input asp-for="Notes" type="text" />
-        <input asp-for="Status" type="text" />
-        <select asp-for="DiagnosisId" asp-items="@Model.DiagnosisList">
-            <option value=""> Select Diagnosis </option>
-        </select>
+            <div class="form-field">
+                <label asp-for="DiagnosisId">Diagnosis</label>
+                <select asp-for="DiagnosisId" asp-items="@Model.DiagnosisList">
+                    <option value="">Select Diagnosis</option>
+                </select>
+            </div>
 
-        <button type="submit">@ViewBag.Action</button>
-    </form>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
+            </div>
+        </form>
+    </div>
 </div>
