@@ -64,7 +64,10 @@ namespace WebMedical.Controllers
             };
 
             userDiagnosis = await _userDiagnosisRepository.AddUserDiagnosisAsync(userDiagnosis);
-            return RedirectToAction("Index");
+            TempData["SuccessMessage"] = "Diagnosis was added to the user successfully";
+            TempData["CrudAlertType"] = "create";
+            TempData["CrudAlertTitle"] = "User diagnosis created";
+            return RedirectToAction("Index", new { userId = model.UserId });
         }
 
         [HttpPost]

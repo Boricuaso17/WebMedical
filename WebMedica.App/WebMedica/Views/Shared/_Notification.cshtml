@@ -1,0 +1,90 @@
+@{
+    var message = TempData["SuccessMessage"]?.ToString();
+    var crudType = TempData["CrudAlertType"]?.ToString()?.ToLower() ?? "create";
+    var title = TempData["CrudAlertTitle"]?.ToString() ?? "Operacion completada";
+
+    var borderColor = "#198754";
+    var shadowColor = "rgba(25, 135, 84, .45)";
+    var buttonColor = "#198754";
+
+    if (crudType == "delete")
+    {
+        borderColor = "#dc3545";
+        shadowColor = "rgba(220, 53, 69, .45)";
+        buttonColor = "#dc3545";
+    }
+    else if (crudType == "update")
+    {
+        borderColor = "#0d6efd";
+        shadowColor = "rgba(13, 110, 253, .45)";
+        buttonColor = "#0d6efd";
+    }
+}
+
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <style>
+        .crud-notification-modal {
+            border: 2px solid @borderColor;
+            border-radius: 8px;
+            box-shadow: 0 0 24px @shadowColor;
+            overflow: hidden;
+        }
+
+        .crud-notification-dialog {
+            position: fixed;
+            top: 1.25rem;
+            left: 50%;
+            width: min(92vw, 32rem);
+            margin: 0;
+            transform: translateX(-50%);
+        }
+
+        .modal.fade .crud-notification-dialog {
+            transform: translate(-50%, -1rem);
+        }
+
+        .modal.show .crud-notification-dialog {
+            transform: translate(-50%, 0);
+        }
+
+        .crud-notification-modal .modal-header {
+            border-color: @borderColor;
+        }
+
+        .crud-notification-modal .modal-body {
+            padding: 1rem;
+        }
+    </style>
+
+    <div class="modal fade" id="crudNotificationModal" tabindex="-1" aria-labelledby="crudNotificationModalLabel" aria-hidden="true"
+         data-bs-backdrop="false" data-bs-keyboard="false">
+        <div class="modal-dialog crud-notification-dialog">
+            <div class="modal-content crud-notification-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crudNotificationModalLabel">@title</h5>
+                </div>
+                <div class="modal-body">
+                    @message
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var notificationModal = document.getElementById("crudNotificationModal");
+
+            if (!notificationModal) {
+                return;
+            }
+
+            var modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+
+            setTimeout(function () {
+                modal.hide();
+            }, 100000);
+        });
+    </script>
+}

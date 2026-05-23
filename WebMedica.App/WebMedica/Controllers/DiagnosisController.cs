@@ -28,6 +28,9 @@ namespace WebMedical.Controllers
             if (ModelState.IsValid)
             {
                 await _diagonsisRepository.AddAsync(diagnosis);
+                TempData["SuccessMessage"] = $"Diagnosis {diagnosis.Name} was added successfully";
+                TempData["CrudAlertType"] = "create";
+                TempData["CrudAlertTitle"] = "Diagnosis created";
                 return RedirectToAction("Index", "Home");
             }
             return View(diagnosis);

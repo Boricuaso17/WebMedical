@@ -55,7 +55,10 @@ namespace WebMedical.Controllers
                 await _userRepository.AddSync(ToUserProfile(model));
                 await _userManager.AddToRoleAsync(userLogin, ((Roles)model.Role).ToString());
 
-                return View();
+                TempData["SuccessMessage"] = $"The user {model.Name} was successfully created";
+                TempData["CrudAlertType"] = "create";
+                TempData["CrudAlertTitle"] = "User created";
+                return RedirectToAction("Add");
             }
             catch (Exception ex)
             {
@@ -84,6 +87,8 @@ namespace WebMedical.Controllers
             await UpdateUserRoleAsync(model.Guid, model.Role);
 
             TempData["SuccessMessage"] = $"The user {userProfile.Name} was successfully updated";
+            TempData["CrudAlertType"] = "update";
+            TempData["CrudAlertTitle"] = "User updated";
 
             return RedirectToAction("Edit", userProfile.Guid);
         }
@@ -92,6 +97,9 @@ namespace WebMedical.Controllers
         public async Task<IActionResult> Delete(Guid guid)
         {
             var user = await _userRepository.DeleteAsync(guid);
+            TempData["SuccessMessage"] = $"The user {user.Name} was successfully deleted";
+            TempData["CrudAlertType"] = "delete";
+            TempData["CrudAlertTitle"] = "User deleted";
             return RedirectToAction("Index", "Home");
         }
 
@@ -171,6 +179,8 @@ namespace WebMedical.Controllers
             }
 
             TempData["SuccessMessage"] = $"The user {user.UserName} was successfully updated!";
+            TempData["CrudAlertType"] = "update";
+            TempData["CrudAlertTitle"] = "User updated";
 
             return RedirectToAction("Add");
         }

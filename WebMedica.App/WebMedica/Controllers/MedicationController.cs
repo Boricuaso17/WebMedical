@@ -28,6 +28,8 @@ namespace WebMedical.Controllers
             var medication = await _medicationRepository.AddMedicationAsync(model);
 
             TempData["SuccessMessage"] = $"Medication {model.Name} was added successfuly";
+            TempData["CrudAlertType"] = "create";
+            TempData["CrudAlertTitle"] = "Medication created";
             return RedirectToAction("Catalog");
         }
 
@@ -46,6 +48,8 @@ namespace WebMedical.Controllers
             var medication = await _medicationRepository.UpdateMedicationAsync(model);
 
             TempData["SuccessMessage"] = $"Medication {medication.Name} was succesfuly edited";
+            TempData["CrudAlertType"] = "update";
+            TempData["CrudAlertTitle"] = "Medication updated";
             return RedirectToAction("Catalog");
         }
 
@@ -53,6 +57,9 @@ namespace WebMedical.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var medication = await _medicationRepository.DeleteMedicationAsync(id);
+            TempData["SuccessMessage"] = $"Medication {medication.Name} was deleted successfully";
+            TempData["CrudAlertType"] = "delete";
+            TempData["CrudAlertTitle"] = "Medication deleted";
             return RedirectToAction("Catalog");
         }
 

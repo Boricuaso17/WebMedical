@@ -79,6 +79,8 @@ namespace WebMedical.Controllers
             await _prescriptionRepository.AddAsync(prescription);
 
             TempData["SuccessMessage"] = "Prescription was added successfully";
+            TempData["CrudAlertType"] = "create";
+            TempData["CrudAlertTitle"] = "Prescription created";
             return RedirectToAction("Record", new { patientId = prescription.PatientId });
         }
 
@@ -127,6 +129,8 @@ namespace WebMedical.Controllers
             }
 
             TempData["SuccessMessage"] = "Prescription was updated successfully";
+            TempData["CrudAlertType"] = "update";
+            TempData["CrudAlertTitle"] = "Prescription updated";
             return RedirectToAction("Record", new { patientId = prescription.PatientId });
         }
 
@@ -141,6 +145,8 @@ namespace WebMedical.Controllers
             }
 
             TempData["SuccessMessage"] = "Prescription was deleted successfully";
+            TempData["CrudAlertType"] = "delete";
+            TempData["CrudAlertTitle"] = "Prescription deleted";
             return RedirectToAction("Record", new { patientId = prescription.PatientId });
         }
 

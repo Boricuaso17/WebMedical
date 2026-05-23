@@ -39,7 +39,9 @@ namespace WebMedical.Controllers
              var appointment = await _appointmentRepository.AddAsync(model);
 
             TempData["SuccessMessage"] = $"Appointment on {appointment.Date} added successfully";
-            return View(appointment);
+            TempData["CrudAlertType"] = "create";
+            TempData["CrudAlertTitle"] = "Appointment created";
+            return RedirectToAction("Index");
          }
 
         [HttpGet]
@@ -58,8 +60,10 @@ namespace WebMedical.Controllers
 
             var appointment = await _appointmentRepository.UpdateAsync(model);
 
-
-            return View("Index");
+            TempData["SuccessMessage"] = $"Appointment on {appointment.Date} updated successfully";
+            TempData["CrudAlertType"] = "update";
+            TempData["CrudAlertTitle"] = "Appointment updated";
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -67,7 +71,10 @@ namespace WebMedical.Controllers
         {
             var appointment = await _appointmentRepository.DeleteAsync(id);
 
-            return View("Index");
+            TempData["SuccessMessage"] = $"Appointment on {appointment.Date} deleted successfully";
+            TempData["CrudAlertType"] = "delete";
+            TempData["CrudAlertTitle"] = "Appointment deleted";
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> GetAppointmentsByDateRange(DateOnly startDate, DateOnly endDate)

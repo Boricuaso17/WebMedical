@@ -25,10 +25,7 @@
     }
 </style>
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <h1>@TempData["SuccessMessage"]</h1>
-}
+<partial name="_Notification" />
 
 <div class="container">
     <a class="addBtn" asp-action="Add" asp-controller="Prescription" asp-route-patientId="@ViewBag.PatientId">

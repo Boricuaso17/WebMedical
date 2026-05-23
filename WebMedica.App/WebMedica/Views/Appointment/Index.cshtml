@@ -32,6 +32,8 @@
         }
 </style>
 
+<partial name="_Notification" />
+
 <form id="antiForgeryForm">
     @Html.AntiForgeryToken()
 </form>
@@ -117,34 +119,30 @@
                 editBtn.innerHTML = `<i class="bi bi-pencil-square"></i>`;
 
                 var deleteBtn = document.createElement("button");
-                deleteBtn.type = "button";
+                deleteBtn.type = "submit";
                 deleteBtn.classList.add("btn", "btnDelete");
                 deleteBtn.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
 
-                deleteBtn.addEventListener("click", async function () {
-                    if (!confirm("¿Estás seguro de eliminar esta cita?")) return;
+                var deleteForm = document.createElement("form");
+                deleteForm.method = "post";
+                deleteForm.action = `/Appointment/Delete?id=${appointment.id}`;
 
-                    try {
-                        const response = await fetch(`/Appointment/Delete?id=${appointment.id}`, {
-                            method: "POST",
-                            headers: {
-                                "RequestVerificationToken": getAntiForgeryToken()
-                            }
-                        });
+                var tokenInput = document.createElement("input");
+                tokenInput.type = "hidden";
+                tokenInput.name = "__RequestVerificationToken";
+                tokenInput.value = getAntiForgeryToken();
 
-                        if (response.ok) {
-                            row.remove();
-                        } else {
-                            console.error("Error al eliminar");
-                        }
-
-                    } catch (error) {
-                        console.error(error);
+                deleteForm.addEventListener("submit", function (event) {
+                    if (!confirm("¿Estás seguro de eliminar esta cita?")) {
+                        event.preventDefault();
                     }
                 });
 
+                deleteForm.appendChild(tokenInput);
+                deleteForm.appendChild(deleteBtn);
+
                 actionsTd.appendChild(editBtn);
-                actionsTd.appendChild(deleteBtn);
+                actionsTd.appendChild(deleteForm);
                 row.appendChild(actionsTd);
 
                 document.querySelector("#appointmentsTable tbody").appendChild(row);

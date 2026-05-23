@@ -1,6 +1,8 @@
 ﻿@model List<WebMedical.Models.Domain.UserDiagnosis>
 
 
+<partial name="_Notification" />
+
 <div class="container">
 
     <a asp-action="Add" asp-controller="UserDiagnosis" asp-route-userId="@ViewBag.UserId">Add Diagnosis</a>
