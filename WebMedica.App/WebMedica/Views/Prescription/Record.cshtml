@@ -57,7 +57,7 @@
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
 
-                                <form asp-action="Delete" method="post">
+                                <form asp-action="Delete" method="post" data-delete-name="@(prescription.Diagnosis?.Name ?? $"Prescription {prescription.Date}")">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@prescription.Id" />
                                     <button type="submit" class="btn btnDelete">

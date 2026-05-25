@@ -60,7 +60,7 @@
             background: #444444;
         }
 
-    li a {
+    li a, li span {
         display: block;
         text-decoration: none;
         color: white;
@@ -149,7 +149,7 @@
             <li >
                 <a  asp-controller="Appointment" asp-action="Index">Appointments</a>
             </li>
-           <li c>
+           <li>
                 <a  asp-controller="Medication" asp-action="Catalog">Medicine</a>
             </li>
         </ul>
@@ -158,17 +158,17 @@
     <div class="bottom">
 
         <ul>
-            <li ><i class="fa-solid fa-circle-user"></i> &nbsp; @User.Identity.Name </li>
+            <li><span><i class="fa-solid fa-circle-user"></i> &nbsp; @User.Identity.Name </span></li>
 
-            <li id="settingsBtn" > <i class="fa-solid fa-gear"></i> &nbsp; Settings </button> </li>
+            <li id="settingsBtn"><span> <i class="fa-solid fa-gear"></i> &nbsp; Settings </span></li>
         </ul>
 
 
 
-        @* Settings Menu *@
+        @* Settings Menu =======================================================*@
         <div id="settingsMenu" class="settings-menu">
-            <a href="#"> <i class="fa-solid fa-user"></i> Profile </a> 
-            <a href="#"> <i class="fa-solid fa-gear"></i> Settings </a>
+            <a href="#"> <i class="bi bi-shield-lock"></i> &nbsp; Change password </a>
+            <a href="#"> <i class="fa-regular fa-envelope"></i> &nbsp; Change Email </a>
 
             <form asp-action="Logout" asp-controller="Account" method="post">
                 @Html.AntiForgeryToken()

@@ -45,7 +45,7 @@
 
                                 <a asp-action="Edit" asp-route-id="@medication.Id" class="btn btnEdit"><i class="bi bi-pencil-square"></i> </a>
 
-                                <form asp-action="Delete" method="post">
+                                <form asp-action="Delete" method="post" data-delete-name="@medication.Name">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@medication.Id" />
                                     <button type="submit" class="btn btnDelete">

@@ -126,17 +126,12 @@
                 var deleteForm = document.createElement("form");
                 deleteForm.method = "post";
                 deleteForm.action = `/Appointment/Delete?id=${appointment.id}`;
+                deleteForm.dataset.deleteName = appointment.reason || appointment.date || "appointment";
 
                 var tokenInput = document.createElement("input");
                 tokenInput.type = "hidden";
                 tokenInput.name = "__RequestVerificationToken";
                 tokenInput.value = getAntiForgeryToken();
-
-                deleteForm.addEventListener("submit", function (event) {
-                    if (!confirm("¿Estás seguro de eliminar esta cita?")) {
-                        event.preventDefault();
-                    }
-                });
 
                 deleteForm.appendChild(tokenInput);
                 deleteForm.appendChild(deleteBtn);
