@@ -29,10 +29,15 @@ textarea {
 .btnAction {
     border-radius: 15px;
     height: 2.5rem;
-    display: flex;
-    flex-direction: row;
+    padding: 0 2rem;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: .5rem;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
     color: white;
     background: #3c3c3c;
     border: none;
