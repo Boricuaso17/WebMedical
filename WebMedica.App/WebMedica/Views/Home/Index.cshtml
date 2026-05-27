@@ -46,7 +46,7 @@
     }
 
     button {
-        width: 5rem;
+        width: 7rem;
     }
 
 </style>
@@ -65,14 +65,14 @@
                 <form method="get" asp-action="SearchUser" asp-controller="Home">
                     <label asp-for="Name">Nombre</label>
                     <input type="text" asp-for="Name" />
-                    <button type="submit">Search</button>
+                    <button class="btnAction" type="submit"><i class="bi bi-search"></i> &nbsp; Search</button>
                 </form>
             </div>
             <div>
                 <form method="post" asp-action="SearchUserBySSN" asp-controller="Home">
                     <label asp-for="SocialSecurityNumber">Social Security Number</label>
                     <input type="text" asp-for="SocialSecurityNumber" />
-                    <button type="submit">Search</button>
+                    <button class="btnAction" type="submit"><i class="bi bi-search"></i> &nbsp; Search</button>
                 </form>
             </div>
         </div>

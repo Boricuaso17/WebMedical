@@ -26,13 +26,17 @@ textarea {
     padding-top: .6rem;
 }
 
-button {
-    background: white;
+.btnAction {
     border-radius: 15px;
-    border: none;
     height: 2.5rem;
-    color: black;
-    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: #3c3c3c;
+    border: none;
+    text-decoration: none;
 }
 
 .btnEdit {

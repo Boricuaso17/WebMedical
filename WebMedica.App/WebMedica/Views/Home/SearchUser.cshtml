@@ -1,4 +1,5 @@
-﻿@model List<WebMedical.Models.ViewModel.AddUserRequest>
+﻿
+@model List<WebMedical.Models.ViewModel.AddUserRequest>
 
 
 <style>
@@ -16,17 +17,12 @@
         color: white;
     }
 
-    .actionBtn {
-        background: #a6a6a6;
-        height: 2.5rem;
-        border-radius: 30px;
+    .btnAction {
+        background: #737373;
         width: 100%;
         border: none;
         padding: 0 1rem;
         text-decoration: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         color: white;
     }
 
@@ -35,12 +31,12 @@
             transition: 0.3s;
     }
 
-    .btnDelete {
-        background: red;
-    }
-
     .btnEdit {
         background: yellow;
+    }
+
+    .btnDelete {
+        background: red;
     }
 
 </style>
@@ -55,7 +51,7 @@
             <div class="cardContainer">
                 <h5>@user.FullName</h5>
 
-                <a class="actionBtn" asp-action="Index" asp-controller="User" asp-route-guid="@user.Guid"><i class="fa-solid fa-clipboard-list"></i> &nbsp; Record</a>
+                <a class="btnAction" asp-action="Index" asp-controller="User" asp-route-guid="@user.Guid"><i class="fa-solid fa-clipboard-list"></i> &nbsp; Record</a>
             </div>
         }
     </div>
