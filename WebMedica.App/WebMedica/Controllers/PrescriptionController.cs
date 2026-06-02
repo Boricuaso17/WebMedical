@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebMedical.Models.Domain;
@@ -7,6 +8,7 @@ using WebMedical.Repositories;
 
 namespace WebMedical.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,AgencyAdmin")]
     public class PrescriptionController : Controller
     {
         private readonly IPrescriptionRepository _prescriptionRepository;
@@ -192,3 +194,4 @@ namespace WebMedical.Controllers
         }
     }
 }
+

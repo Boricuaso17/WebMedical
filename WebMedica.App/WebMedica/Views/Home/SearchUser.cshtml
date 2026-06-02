@@ -1,4 +1,4 @@
-﻿
+
 @model List<WebMedical.Models.ViewModel.AddUserRequest>
 
 
@@ -51,8 +51,9 @@
             <div class="cardContainer">
                 <h5>@user.FullName</h5>
 
-                <a class="btnAction" asp-action="Index" asp-controller="User" asp-route-guid="@user.Guid"><i class="fa-solid fa-clipboard-list"></i> &nbsp; Record</a>
+                <a class="btnAction" asp-action="Index" asp-controller="UserAdmin" asp-route-guid="@user.Guid"><i class="fa-solid fa-clipboard-list"></i> &nbsp; Record</a>
             </div>
         }
     </div>
 </div>
+

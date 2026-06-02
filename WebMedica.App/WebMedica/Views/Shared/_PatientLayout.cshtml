@@ -1,5 +1,56 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebMedical</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="~/img/Logo_NoBg.png" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebMedical.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/WebMedical.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/WebMedicalPatientStyle.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="patient-shell">
+        <aside class="patient-sidebar">
+            <div class="patient-logo">
+                <a asp-controller="UserPatient" asp-action="Index"><img src="/img/Logo&Txt_NoBg.png" alt="WebMedical" /></a>
+            </div>
+
+            <ul class="patient-menu">
+                <li><a asp-controller="UserPatient" asp-action="Index"><i class="fa-solid fa-house-chimney"></i> Inicio</a></li>
+                <li><span class="disabled-link"><i class="fa-solid fa-address-card"></i> Mi informacion</span></li>
+                <li><span class="disabled-link"><i class="bi bi-calendar2"></i> Mis citas</span></li>
+                <li><span class="disabled-link"><i class="fa-solid fa-stethoscope"></i> Mis diagnosticos</span></li>
+                <li><span class="disabled-link"><i class="fa-solid fa-file-prescription"></i> Mis recetas</span></li>
+                <li><span class="disabled-link"><i class="fa-solid fa-gear"></i> Cuenta</span></li>
+            </ul>
+
+            <div class="patient-account">
+                <ul class="patient-menu">
+                    <li><span><i class="fa-solid fa-circle-user"></i> @User.Identity?.Name</span></li>
+                    <li>
+                        <form asp-action="Logout" asp-controller="Account" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesion</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="patient-content" role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

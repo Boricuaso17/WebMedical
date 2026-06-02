@@ -1,0 +1,112 @@
+.patient-shell {
+    min-height: 100vh;
+    display: flex;
+    background: #f5f7fb;
+    color: #171717;
+}
+
+.patient-sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: #171717;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.patient-logo {
+    padding: 1rem 1.25rem;
+}
+
+.patient-logo img {
+    height: 72px;
+    max-width: 100%;
+}
+
+.patient-menu {
+    list-style: none;
+    padding: .5rem 0;
+    margin: 0;
+    flex: 1;
+}
+
+.patient-menu a,
+.patient-menu span,
+.patient-menu button {
+    width: 100%;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .75rem 1.25rem;
+    color: white;
+    text-decoration: none;
+    border: 0;
+    background: transparent;
+    text-align: left;
+}
+
+.patient-menu a:hover,
+.patient-menu button:hover {
+    background: #333;
+}
+
+.patient-menu .disabled-link {
+    color: #a9a9a9;
+    cursor: default;
+}
+
+.patient-menu .disabled-link:hover {
+    background: transparent;
+}
+
+.patient-account {
+    border-top: 1px solid #333;
+    padding-top: .25rem;
+}
+
+.patient-content {
+    flex: 1;
+    padding: 2rem;
+}
+
+.patient-welcome {
+    max-width: 860px;
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .08);
+}
+
+.patient-eyebrow {
+    margin: 0 0 .5rem;
+    font-size: .85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #525252;
+}
+
+.patient-welcome h1 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+@media (max-width: 800px) {
+    .patient-shell {
+        flex-direction: column;
+    }
+
+    .patient-sidebar {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .patient-menu {
+        flex: initial;
+    }
+
+    .patient-content {
+        padding: 1rem;
+    }
+}

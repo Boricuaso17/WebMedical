@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebMedical.Models.Domain;
@@ -29,6 +29,23 @@ namespace WebMedical.Controllers
             var result = await _signInManager.PasswordSignInAsync(request.Username, request.Password, false, true);
             if (result.Succeeded)
             {
+                var userLogin = await _userManager.FindByNameAsync(request.Username);
+
+                if (userLogin != null)
+                {
+                    var roles = await _userManager.GetRolesAsync(userLogin);
+
+                    if (roles.Contains("User"))
+                    {
+                        return RedirectToAction("Index", "UserPatient");
+                    }
+
+                    if (roles.Contains("SuperAdmin") || roles.Contains("AgencyAdmin"))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -64,7 +81,7 @@ namespace WebMedical.Controllers
 
             if (request.NewPassword != request.ConfirmPassword)
             {
-                ModelState.AddModelError("", "Las contraseñas no coinciden.");
+                ModelState.AddModelError("", "Las contrase�as no coinciden.");
                 return View(request);
             }
 
@@ -89,3 +106,5 @@ namespace WebMedical.Controllers
         }
     }
 }
+
+

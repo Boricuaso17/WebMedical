@@ -1,10 +1,12 @@
-﻿
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebMedical.Models.Domain;
 using WebMedical.Repositories;
 
 namespace WebMedical.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,AgencyAdmin")]
     public class MedicationController : Controller
     {
         private readonly IMedicationRepository _medicationRepository;
@@ -73,3 +75,4 @@ namespace WebMedical.Controllers
         }
     }
 }
+

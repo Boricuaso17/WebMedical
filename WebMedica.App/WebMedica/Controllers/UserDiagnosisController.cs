@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using System.Security.Claims;
@@ -8,6 +9,7 @@ using WebMedical.Repositories;
 
 namespace WebMedical.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,AgencyAdmin")]
     public class UserDiagnosisController : Controller
     {
 
@@ -78,3 +80,4 @@ namespace WebMedical.Controllers
         }
     }
 }
+

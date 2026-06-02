@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using WebMedical.Models.Domain;
 using WebMedical.Repositories;
 
 namespace WebMedical.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,AgencyAdmin")]
     public class AppointmentController : Controller
     {
         private readonly IAppointmentRepository _appointmentRepository;
@@ -86,3 +88,4 @@ namespace WebMedical.Controllers
         }
     }
 }
+

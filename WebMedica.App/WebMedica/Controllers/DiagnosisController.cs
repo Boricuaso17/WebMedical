@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebMedical.Data;
 using WebMedical.Models.Domain;
 using WebMedical.Repositories;
 
 namespace WebMedical.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,AgencyAdmin")]
     public class DiagnosisController : Controller
     {
 
@@ -45,3 +47,4 @@ namespace WebMedical.Controllers
         }
     }
 }
+

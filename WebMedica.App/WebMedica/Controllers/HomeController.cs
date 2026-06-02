@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Reflection.Emit;
@@ -9,6 +10,7 @@ using WebMedical.Repositories;
 
 namespace WebMedical.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,AgencyAdmin")]
     public class HomeController : Controller
     {
 
@@ -33,10 +35,6 @@ namespace WebMedical.Controllers
             {
                 usersList = await _userRepository.GetUserByNameAsync(search.Name);
             }
-            //else
-            //{
-            //    usersList = await _userRepository.GetUserBySSN(search.SocialSecurityNumber);
-            //}
 
             var usersFound = new List<AddUserRequest> { };
 
@@ -101,3 +99,4 @@ namespace WebMedical.Controllers
 
     }
 }
+

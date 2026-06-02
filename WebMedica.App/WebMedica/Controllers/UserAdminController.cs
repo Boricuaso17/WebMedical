@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebMedical.Models.Domain;
 using WebMedical.Models.ViewModel;
@@ -7,12 +8,13 @@ using WebMedical.Enum;
 
 namespace WebMedical.Controllers
 {
-    public class UserController : Controller
+    [Authorize(Roles = "SuperAdmin,AgencyAdmin")]
+    public class UserAdminController : Controller
     {
         private readonly IUserRepository _userRepository;
         private readonly UserManager<UserLogin> _userManager;
 
-        public UserController(IUserRepository userRepository, UserManager<UserLogin> userManager)
+        public UserAdminController(IUserRepository userRepository, UserManager<UserLogin> userManager)
         {
             _userRepository = userRepository;
             _userManager = userManager;   
@@ -39,20 +41,29 @@ namespace WebMedical.Controllers
         {
             try
             {
+                var userProfile = await _userRepository.AddSync(ToUserProfile(model));
+
                 var userLogin = new UserLogin
                 {
                     UserName = model.Username,
                     Email = model.Email,
+                    UserProfileId = userProfile.Id
                 };
 
                 var result = await _userManager.CreateAsync(userLogin, model.Password);
 
                 if (!result.Succeeded)
                 {
+                    await _userRepository.DeleteAsync(userProfile.Guid);
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+
                     return View(model);
                 }
 
-                await _userRepository.AddSync(ToUserProfile(model));
                 await _userManager.AddToRoleAsync(userLogin, ((Roles)model.Role).ToString());
 
                 TempData["SuccessMessage"] = $"The user {model.Name} was successfully created";
@@ -134,7 +145,7 @@ namespace WebMedical.Controllers
             var user = new UserProfile
             {
                 Id = model.Id,
-                Guid = model.Guid,
+                Guid = model.Guid == Guid.Empty ? Guid.NewGuid() : model.Guid,
                 SocialSecurityNumber = model.SocialSecurityNumber,
                 Name = model.Name,
                 MiddleName = model.MiddleName,
@@ -188,3 +199,6 @@ namespace WebMedical.Controllers
        
     }
 }
+
+
+
