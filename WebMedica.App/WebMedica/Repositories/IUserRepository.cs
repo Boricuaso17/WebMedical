@@ -5,18 +5,18 @@ namespace WebMedical.Repositories
 {
     public interface IUserRepository
     {
-       Task<IEnumerable<UserProfile>> GetAllAsync();
+       Task<IEnumerable<AddUserRequest>> GetAllAsync();
 
-        Task<UserProfile> GetUserAsync(Guid guid);
+        Task<AddUserRequest> GetUserAsync(Guid guid);
 
-        Task<List<UserProfile>> GetUserByNameAsync(string name);
-        Task<UserProfile> GetUserBySSN(string ssn);
+        Task<List<AddUserRequest>> GetUserByNameAsync(string name);
+        Task<AddUserRequest> GetUserBySSN(string ssn);
 
-        Task<UserProfile> AddSync(UserProfile user);
+        Task<AddUserRequest> AddSync(AddUserRequest user);
 
-        Task<UserProfile> UpdateAsync(UserProfile user);
+        Task<AddUserRequest> UpdateAsync(AddUserRequest user);
 
-        Task<UserProfile> DeleteAsync(Guid guid);
+        Task<AddUserRequest> DeleteAsync(Guid guid);
 
     }
 }

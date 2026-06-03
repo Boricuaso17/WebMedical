@@ -5,6 +5,7 @@ using WebMedical.Models.Domain;
 using WebMedical.Models.ViewModel;
 using WebMedical.Repositories;
 using WebMedical.Enum;
+using Microsoft.DotNet.Scaffolding.Shared.Project;
 
 namespace WebMedical.Controllers
 {
@@ -25,7 +26,7 @@ namespace WebMedical.Controllers
         {
             var user = await _userRepository.GetUserAsync(guid);
 
-            return View(ToAddUserRequest(user));
+            return View(user);
         }
 
         [HttpGet]
@@ -86,15 +87,13 @@ namespace WebMedical.Controllers
 
             var user = await _userRepository.GetUserAsync(guid);
 
-            var addUserRequest = ToAddUserRequest(user);
-
-            return View("Add", addUserRequest);
+            return View("Add", user);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(AddUserRequest model)
         {
-            var userProfile = await _userRepository.UpdateAsync(ToUserProfile(model));
+            var userProfile = await _userRepository.UpdateAsync(model);
             await UpdateUserRoleAsync(model.Guid, model.Role);
 
             TempData["SuccessMessage"] = $"The user {userProfile.Name} was successfully updated";

@@ -10,7 +10,7 @@
         justify-content: space-between;
         align-items: center;
         height: 15rem;
-        width: 20rem;
+        width: 22rem;
         border-radius: 20px;
         padding: 1.5rem;
         box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
@@ -18,27 +18,8 @@
     }
 
     .btnAction {
-        background: #737373;
         width: 100%;
-        border: none;
-        padding: 0 1rem;
-        text-decoration: none;
-        color: white;
     }
-
-    .cardContainer a:hover {
-            background: #818181;
-            transition: background-color 0.3s;
-    }
-
-    .btnEdit {
-        background: yellow;
-    }
-
-    .btnDelete {
-        background: red;
-    }
-
 </style>
 
 <div class="container">
@@ -49,7 +30,10 @@
         @foreach (var user in Model)
         {
             <div class="cardContainer">
-                <h5>@user.FullName</h5>
+                <p>@user.FullName</p>
+                <p>@(user.UserLogin?.Email ?? "No email encontrado")</p>
+                <p>@user.Phone</p>
+                <p>@user.DateOfBirth</p>
 
                 <a class="btnAction" asp-action="Index" asp-controller="UserAdmin" asp-route-guid="@user.Guid"><i class="fa-solid fa-clipboard-list"></i> &nbsp; Record</a>
             </div>

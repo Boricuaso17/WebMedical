@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebMedical.Enum;
+using WebMedical.Models.Domain;
 
 namespace WebMedical.Models.ViewModel
 {
@@ -55,6 +56,9 @@ namespace WebMedical.Models.ViewModel
 
         // Shows if the user is active or not in the system
         public bool IsActive { get; set; }
+
+        // Navegation property
+        public UserLogin UserLogin { get; set; }
 
         /// <summary>
         /// Username of the user required to login into the app
