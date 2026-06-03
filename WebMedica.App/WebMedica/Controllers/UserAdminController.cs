@@ -5,7 +5,6 @@ using WebMedical.Models.Domain;
 using WebMedical.Models.ViewModel;
 using WebMedical.Repositories;
 using WebMedical.Enum;
-using Microsoft.DotNet.Scaffolding.Shared.Project;
 
 namespace WebMedical.Controllers
 {
@@ -65,7 +64,20 @@ namespace WebMedical.Controllers
                     return View(model);
                 }
 
-                await _userManager.AddToRoleAsync(userLogin, ((Roles)model.Role).ToString());
+                var roleResult = await _userManager.AddToRoleAsync(userLogin, ((Roles)model.Role).ToString());
+
+                if (!roleResult.Succeeded)
+                {
+                    await _userManager.DeleteAsync(userLogin);
+                    await _userRepository.DeleteAsync(userProfile.Guid);
+
+                    foreach (var error in roleResult.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+
+                    return View(model);
+                }
 
                 TempData["SuccessMessage"] = $"The user {model.Name} was successfully created";
                 TempData["CrudAlertType"] = "create";

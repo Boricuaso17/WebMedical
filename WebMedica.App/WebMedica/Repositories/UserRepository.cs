@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebMedical.Data;
 using WebMedical.Enum;
@@ -19,7 +19,7 @@ namespace WebMedical.Repositories
         {
             var userProfile = ToUserProfile(user);
 
-            await _webMedicalDbContext.UserProfile.AddAsync(ToUserProfile(user));
+            await _webMedicalDbContext.UserProfile.AddAsync(userProfile);
             await _webMedicalDbContext.SaveChangesAsync();
 
             user.Id = userProfile.Id;
@@ -42,15 +42,51 @@ namespace WebMedical.Repositories
             return ToAddUserRequest(user);
         }
 
-        public async Task<List<AddUserRequest>> GetUserByNameAsync(string search)
+        public async Task<List<AddUserRequest>> SearchUsersAsync(AddUserRequest search)
         {
-            var users = await _webMedicalDbContext.UserProfile
+            var query = _webMedicalDbContext.UserProfile
                 .Include(u => u.UserLogin)
-                .Where(u =>
-                u.Name.Contains(search) ||
-                u.MiddleName.Contains(search) ||
-                u.LastName.Contains(search) ||
-                u.LastName2.Contains(search)).ToListAsync();
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search.Name))
+            {
+                query = query.Where(u => u.Name.ToLower().Contains(search.Name.Trim().ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.MiddleName))
+            {
+                query = query.Where(u => u.MiddleName.ToLower().Contains(search.MiddleName.Trim().ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.LastName))
+            {
+                query = query.Where(u => u.LastName.ToLower().Contains(search.LastName.Trim().ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.LastName2))
+            {
+                query = query.Where(u => u.LastName2.ToLower().Contains(search.LastName2.Trim().ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.Email))
+            {
+                query = query.Where(u =>
+                    u.UserLogin != null &&
+                    u.UserLogin.Email != null &&
+                    u.UserLogin.Email.ToLower().Contains(search.Email.Trim().ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.SocialSecurityNumber))
+            {
+                query = query.Where(u => u.SocialSecurityNumber.Contains(search.SocialSecurityNumber.Trim()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.Phone))
+            {
+                query = query.Where(u => u.Phone.Contains(search.Phone.Trim()));
+            }
+
+            var users = await query.ToListAsync();
 
             return ToAddUserRequest(users);
         }
@@ -77,13 +113,6 @@ namespace WebMedical.Repositories
             {
                 return null;
             }
-        }
-
-        public async Task<AddUserRequest> GetUserBySSN(string ssn)
-        {
-            var user = await _webMedicalDbContext.UserProfile.FirstOrDefaultAsync(u => u.SocialSecurityNumber == ssn);
-
-            return ToAddUserRequest(user);
         }
 
         public static AddUserRequest ToAddUserRequest(UserProfile model)
@@ -147,3 +176,4 @@ namespace WebMedical.Repositories
         }
     }
 }
+

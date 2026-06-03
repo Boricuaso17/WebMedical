@@ -30,46 +30,26 @@ namespace WebMedical.Controllers
         public async Task<IActionResult> SearchUser(AddUserRequest search)
         {
             var usersList = new List<AddUserRequest> { };
-            if (search.Name != null)
+
+            if (HasSearchCriteria(search))
             {
-                usersList = await _userRepository.GetUserByNameAsync(search.Name);
+                usersList = await _userRepository.SearchUsersAsync(search);
             }
 
             return View(usersList);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SearchUserBySSN(AddUserRequest search)
+        private static bool HasSearchCriteria(AddUserRequest search)
         {
-            var user = await _userRepository.GetUserBySSN(search.SocialSecurityNumber);
-
-            var newUser = new AddUserRequest
-            {
-                Guid = user.Guid,
-                SocialSecurityNumber = user.SocialSecurityNumber,
-                Name = user.Name,
-                MiddleName = user.MiddleName,
-                LastName = user.LastName,
-                LastName2 = user.LastName2,
-                DateOfBirth = user.DateOfBirth,
-                Phone = user.Phone,
-                FisicalAddress = user.FisicalAddress,
-                FisicalAddressLine2 = user.FisicalAddressLine2,
-                Town = user.Town,
-                State = user.State,
-                Zipcode = user.Zipcode,
-                PostalAddress = user.PostalAddress,
-                PostalAddressLine2 = user.PostalAddressLine2,
-                IsActive = user.IsActive
-            };
-            var usersFound = new List<AddUserRequest> { };
-            usersFound.Add(newUser);
-
-            return View("SearchUser", usersFound);
+            return !string.IsNullOrWhiteSpace(search.Name) ||
+                   !string.IsNullOrWhiteSpace(search.MiddleName) ||
+                   !string.IsNullOrWhiteSpace(search.LastName) ||
+                   !string.IsNullOrWhiteSpace(search.LastName2) ||
+                   !string.IsNullOrWhiteSpace(search.Email) ||
+                   !string.IsNullOrWhiteSpace(search.SocialSecurityNumber) ||
+                   !string.IsNullOrWhiteSpace(search.Phone);
         }
-
-             
-
     }
 }
+
 

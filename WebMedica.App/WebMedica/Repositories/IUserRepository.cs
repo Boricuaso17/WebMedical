@@ -1,4 +1,4 @@
-﻿using WebMedical.Models.Domain;
+using WebMedical.Models.Domain;
 using WebMedical.Models.ViewModel;
 
 namespace WebMedical.Repositories
@@ -9,8 +9,7 @@ namespace WebMedical.Repositories
 
         Task<AddUserRequest> GetUserAsync(Guid guid);
 
-        Task<List<AddUserRequest>> GetUserByNameAsync(string name);
-        Task<AddUserRequest> GetUserBySSN(string ssn);
+        Task<List<AddUserRequest>> SearchUsersAsync(AddUserRequest search);
 
         Task<AddUserRequest> AddSync(AddUserRequest user);
 
@@ -20,3 +19,4 @@ namespace WebMedical.Repositories
 
     }
 }
+
