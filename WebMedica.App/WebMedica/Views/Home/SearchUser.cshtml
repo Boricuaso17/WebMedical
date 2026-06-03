@@ -10,15 +10,33 @@
         justify-content: space-between;
         align-items: center;
         height: 15rem;
-        width: 22rem;
+        width: 100%;
         border-radius: 20px;
         padding: 1.5rem;
         box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
         color: white;
     }
 
+    .results-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+    }
+
     .btnAction {
         width: 100%;
+    }
+
+    @@media (max-width: 992px) {
+        .results-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 640px) {
+        .results-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
@@ -26,7 +44,7 @@
 
     <h3 class="m-3">Usuario</h3>
 
-    <div class="d-flex flex-wrap gap-3 justify-content-start">
+    <div class="results-grid">
         @foreach (var user in Model)
         {
             <div class="cardContainer">
