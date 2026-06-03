@@ -42,7 +42,7 @@ namespace WebMedical.Controllers
         {
             try
             {
-                var userProfile = await _userRepository.AddSync(ToUserProfile(model));
+                var userProfile = await _userRepository.AddSync(model);
 
                 var userLogin = new UserLogin
                 {
