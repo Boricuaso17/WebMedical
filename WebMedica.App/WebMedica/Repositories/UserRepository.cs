@@ -37,7 +37,8 @@ namespace WebMedical.Repositories
 
         public async Task<AddUserRequest?> GetUserAsync(Guid guid)
         {
-            var user = await _webMedicalDbContext.UserProfile.FirstOrDefaultAsync(u => u.Guid == guid);
+            var user = await _webMedicalDbContext.UserProfile.Include(u => u.UserLogin)
+                .FirstOrDefaultAsync(u => u.Guid == guid);
 
             return ToAddUserRequest(user);
         }

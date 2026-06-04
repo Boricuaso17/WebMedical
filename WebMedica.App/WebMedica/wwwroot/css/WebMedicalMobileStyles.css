@@ -205,10 +205,14 @@
         min-width: 52rem;
     }
 
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
     .cardContainer {
         height: auto;
+        width: 100%;
         min-height: 0;
-        grid-template-columns: 1fr;
         gap: 1rem;
         margin-top: 1rem;
         border-radius: 8px;
@@ -280,6 +284,10 @@
     .results-grid {
         grid-template-columns: 1fr;
     }
+}
+
+.cardContainer{
+    width: 100%;
 }
 
 @media (max-width: 520px) {
