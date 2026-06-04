@@ -8,7 +8,7 @@
         background: #171717;
         color: white;
         flex-shrink: 0;
-        transition: width 0.3s ease;
+        transition: width 0.3s ease, min-height 0.3s ease;
         overflow: hidden;
         display: flex;
         flex-direction: column;
@@ -27,12 +27,48 @@
         }
 
         .sidebar-menu img {
-            height: 80px;
-            margin: .8rem 0 0 .8rem;
+            height: 72px;
+            max-width: 100%;
         }
 
     /* Sidebar END ==========================================================================================================================================================================================*/
-    .top {
+    .sidebar-menu .top {
+        min-height: 6rem;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        padding: .8rem .75rem .4rem;
+    }
+
+    .sidebar-logo-link {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .sidebar-toggle {
+        width: 2.75rem;
+        height: 2.75rem;
+        flex: 0 0 2.75rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #444;
+        border-radius: 10px;
+        background: #242424;
+        color: white;
+        cursor: pointer;
+        transition: background-color .2s ease, border-color .2s ease;
+    }
+
+        .sidebar-toggle:hover,
+        .sidebar-toggle:focus {
+            background: #333;
+            border-color: #666;
+        }
+
+    .sidebar-label {
+        display: inline;
+        white-space: nowrap;
     }
 
     .middle {
@@ -52,16 +88,19 @@
             color: white;
         }
 
-        ul li{
+        .sidebar-menu ul li{
         margin: 0;
         }
 
-        ul li:hover{
+        .sidebar-menu ul li:hover{
             background: #444444;
         }
 
-    li a, li span {
-        display: block;
+    .sidebar-menu li > a,
+    .sidebar-menu li > span {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
         text-decoration: none;
         color: white;
         height: 100%;
@@ -130,27 +169,53 @@
         border: none;
         cursor: pointer;
     }
+
+    .sidebar-menu.collapsed .top {
+        justify-content: center;
+        padding-left: .5rem;
+        padding-right: .5rem;
+    }
+
+    .sidebar-menu.collapsed .sidebar-logo-link,
+    .sidebar-menu.collapsed .sidebar-label {
+        display: none;
+    }
+
+    .sidebar-menu.collapsed li > a,
+    .sidebar-menu.collapsed li > span,
+    .sidebar-menu.collapsed .settings-btn {
+        justify-content: center;
+        padding-left: .5rem;
+        padding-right: .5rem;
+    }
+
+    .sidebar-menu.collapsed .settings-menu {
+        left: 70px;
+    }
     /* Settings Menu END ======================================================================================================================================================================================*/
 </style>
 
 <div class="sidebar-menu">
     <div class="top">
-        <a asp-action="Index" asp-controller="Home"><img src="/img/Logo&Txt_NoBg.png" /></a>
+        <a class="sidebar-logo-link" asp-action="Index" asp-controller="Home"><img src="/img/Logo&Txt_NoBg.png" alt="WebMedical" /></a>
+        <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Minimize menu" aria-expanded="true">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </div>
 
     <div class="middle">
         <ul class="">
             <li >
-                <a c asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house-chimney"></i>&nbsp; Home</a>
+                <a asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house-chimney"></i><span class="sidebar-label">Home</span></a>
             </li>
             <li >
-                <a  asp-controller="UserAdmin" asp-action="Add"><i class="bi bi-person-add"></i>&nbsp; Create User</a>
+                <a asp-controller="UserAdmin" asp-action="Add"><i class="bi bi-person-add"></i><span class="sidebar-label">Create User</span></a>
             </li>
             <li >
-                <a asp-controller="Appointment" asp-action="Index"><i class="bi bi-calendar2"></i> &nbsp; Appointments</a>
+                <a asp-controller="Appointment" asp-action="Index"><i class="bi bi-calendar2"></i><span class="sidebar-label">Appointments</span></a>
             </li>
            <li>
-                <a asp-controller="Medication" asp-action="Catalog"><i class="bi bi-capsule-pill"></i> &nbsp; Medicine</a>
+                <a asp-controller="Medication" asp-action="Catalog"><i class="bi bi-capsule-pill"></i><span class="sidebar-label">Medicine</span></a>
             </li>
         </ul>
     </div>
@@ -158,9 +223,9 @@
     <div class="bottom">
 
         <ul>
-            <li><span><i class="fa-solid fa-circle-user"></i> &nbsp; @User.Identity.Name </span></li>
+            <li><span><i class="fa-solid fa-circle-user"></i><span class="sidebar-label">@User.Identity.Name</span></span></li>
 
-            <li id="settingsBtn"><span> <i class="fa-solid fa-gear"></i> &nbsp; Settings </span></li>
+            <li id="settingsBtn"><span><i class="fa-solid fa-gear"></i><span class="sidebar-label">Settings</span></span></li>
         </ul>
 
 
@@ -184,6 +249,46 @@
 <script>
     const settingsBtn = document.getElementById("settingsBtn");
     const settingsMenu = document.getElementById("settingsMenu");
+    const sidebarMenu = document.querySelector(".sidebar-menu");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const mobileSidebarQuery = window.matchMedia("(max-width: 900px)");
+
+    function syncSidebarToggleState() {
+        const isMobile = mobileSidebarQuery.matches;
+        const isExpanded = isMobile
+            ? sidebarMenu.classList.contains("mobile-open")
+            : !sidebarMenu.classList.contains("collapsed");
+
+        sidebarToggle.setAttribute("aria-expanded", isExpanded.toString());
+        sidebarToggle.setAttribute("aria-label", isMobile
+            ? (isExpanded ? "Close menu" : "Open menu")
+            : (isExpanded ? "Minimize menu" : "Expand menu"));
+    }
+
+    function normalizeSidebarMode() {
+        if (mobileSidebarQuery.matches) {
+            sidebarMenu.classList.remove("collapsed");
+            sidebarMenu.classList.remove("mobile-open");
+        } else {
+            sidebarMenu.classList.remove("mobile-open");
+        }
+
+        settingsMenu.classList.remove("show");
+        syncSidebarToggleState();
+    }
+
+    sidebarToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+
+        if (mobileSidebarQuery.matches) {
+            sidebarMenu.classList.toggle("mobile-open");
+        } else {
+            sidebarMenu.classList.toggle("collapsed");
+        }
+
+        settingsMenu.classList.remove("show");
+        syncSidebarToggleState();
+    });
 
     settingsBtn.addEventListener("click", function (e) {
         e.stopPropagation();
@@ -197,4 +302,7 @@
     settingsMenu.addEventListener("click", function (e) {
         e.stopPropagation();
     });
+
+    mobileSidebarQuery.addEventListener("change", normalizeSidebarMode);
+    normalizeSidebarMode();
 </script>
