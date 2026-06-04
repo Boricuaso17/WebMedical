@@ -1,5 +1,10 @@
 ﻿@model WebMedical.Models.ViewModel.AddUserRequest
 
+@{
+    string[] backgroundColorArr = ["#FDE2E4", "#D8F3DC", "#DCEEFB", "#FFF1C1", "#E9D5FF", "#FFD6A5", "#CFFAFE", "#FBCFE8"];
+
+    string[] iconColorArr = ["#BE123C", "#166534", "#1D4ED8", "#A16207", "#6B21A8", "#C2410C", "#0E7490", "#9D174D"];
+}
 
 <style>
     .navbarRecord {
@@ -26,13 +31,13 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
     }
 
     .sidebar {
         display: flex;
         flex-direction: column;
         gap: 15px;
+        margin-top:auto;
     }
 
         .sidebar a {
@@ -64,23 +69,31 @@
             margin-bottom: .5rem;
         }
 
-        profileHolder{
+    .sideBarTitle{
+        margin-bottom: 1rem;
+    }
+
+    .sideBarProfile {
             background: red;
             border-radius: 50%;
             aspect-ratio: 1/1;
-            height: 20rem;
+            width: 14rem;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            align-self: center;
         }
 
 </style>
 <div class="container">
     <div class="cardContainer">
         <div class="sidebarCol">
-            <div>
+            <div class="sideBarTitle">
                 <h4>Record</h4>
             </div>
 
-            <div class="profileHolder">
-                <i class="bi bi-person-fill"></i>
+            <div class="sideBarProfile">
+                <i class="bi bi-person-fill" style="font-size: 8rem"></i>
             </div>
 
             <div class="sidebar">
