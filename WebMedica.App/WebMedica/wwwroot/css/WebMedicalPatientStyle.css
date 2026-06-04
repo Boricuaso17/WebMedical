@@ -92,21 +92,3 @@
     font-size: 2rem;
 }
 
-@media (max-width: 800px) {
-    .patient-shell {
-        flex-direction: column;
-    }
-
-    .patient-sidebar {
-        width: 100%;
-        min-height: auto;
-    }
-
-    .patient-menu {
-        flex: initial;
-    }
-
-    .patient-content {
-        padding: 1rem;
-    }
-}

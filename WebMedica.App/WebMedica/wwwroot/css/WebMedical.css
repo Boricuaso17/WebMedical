@@ -42,6 +42,7 @@ textarea {
     background: #3c3c3c;
     border: none;
     text-decoration: none;
+    margin-top: 1rem;
 }
 
 .btnEdit {
@@ -54,7 +55,7 @@ textarea {
     margin-top: 0;
     border: 2px solid #084298;
     background: #cfe2ff;
-    color: #084298;
+    color: #056cda;
     box-shadow: none;
     transition: box-shadow .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease;
 }
@@ -207,13 +208,6 @@ textarea {
 .form-actions input[type="submit"] {
     margin-top: 0;
 }
-
-@media (max-width: 700px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
 
 /* Contenido principal */
 .main-content {
