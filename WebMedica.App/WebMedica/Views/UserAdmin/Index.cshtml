@@ -2,8 +2,10 @@
 
 @{
     string[] backgroundColorArr = ["#FDE2E4", "#D8F3DC", "#DCEEFB", "#FFF1C1", "#E9D5FF", "#FFD6A5", "#CFFAFE", "#FBCFE8"];
-
     string[] iconColorArr = ["#BE123C", "#166534", "#1D4ED8", "#A16207", "#6B21A8", "#C2410C", "#0E7490", "#9D174D"];
+
+    var random = new Random();
+    int idx = random.Next(0, backgroundColorArr.Length - 1);
 }
 
 <style>
@@ -25,6 +27,7 @@
         grid-template-columns: 250px 1fr;
         gap: 25px;
         margin-top: 2rem;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, .35);
     }
 
     .sidebarCol {
@@ -74,10 +77,10 @@
     }
 
     .sideBarProfile {
-            background: red;
+            background: @backgroundColorArr[idx];
             border-radius: 50%;
             aspect-ratio: 1/1;
-            width: 14rem;
+            width: 11rem;
             display:flex;
             justify-content: center;
             align-items: center;
@@ -93,7 +96,7 @@
             </div>
 
             <div class="sideBarProfile">
-                <i class="bi bi-person-fill" style="font-size: 8rem"></i>
+                <i class="bi bi-person-fill" style="font-size: 7.5rem; color:@iconColorArr[idx]"></i>
             </div>
 
             <div class="sidebar">
