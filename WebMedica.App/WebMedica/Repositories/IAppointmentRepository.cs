@@ -1,4 +1,5 @@
 ﻿using WebMedical.Models.Domain;
+using WebMedical.Models.ViewModel;
 
 namespace WebMedical.Repositories
 {
@@ -7,9 +8,9 @@ namespace WebMedical.Repositories
 
         Task<List<Appointment>> GetAllAppointmentsAsync();
         Task<Appointment> GetAppointmentAsync(int id);
-        Task<Appointment> UpdateAsync(Appointment appointment);
+        Task<AddAppointmentRequest> UpdateAsync(AddAppointmentRequest appointment);
         Task<Appointment> DeleteAsync(int id);
-        Task<Appointment> AddAsync(Appointment appointment);
+        Task<AddAppointmentRequest> AddAsync(AddAppointmentRequest appointment);
         Task<List<Appointment>> GetAppointmentsByDateAsync(DateOnly startDate, DateOnly endDate);
     }
 }

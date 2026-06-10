@@ -1,0 +1,285 @@
+@model WebMedical.Models.ViewModel.AppointmentDateAvailabilityRequest
+
+@{
+    ViewData["Title"] = "Appointment availability";
+    var today = DateOnly.FromDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+    var days = new[]
+    {
+        new { Value = DayOfWeek.Monday, Label = "Monday" },
+        new { Value = DayOfWeek.Tuesday, Label = "Tuesday" },
+        new { Value = DayOfWeek.Wednesday, Label = "Wednesday" },
+        new { Value = DayOfWeek.Thursday, Label = "Thursday" },
+        new { Value = DayOfWeek.Friday, Label = "Friday" },
+        new { Value = DayOfWeek.Saturday, Label = "Saturday" },
+        new { Value = DayOfWeek.Sunday, Label = "Sunday" }
+    };
+}
+
+<style>
+    .availability-page {
+        padding: 2rem;
+    }
+
+    .availability-layout {
+        display: grid;
+        grid-template-columns: minmax(20rem, 28rem) 1fr;
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .availability-panel {
+        background: #181818;
+        color: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, .25);
+    }
+
+    .availability-days {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .65rem;
+    }
+
+    .availability-day {
+        min-height: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        padding: .5rem .65rem;
+        border: 1px solid #3a3a3a;
+        border-radius: 8px;
+        background: #242424;
+    }
+
+    .availability-day input {
+        width: 1rem;
+        height: 1rem;
+        padding: 0;
+    }
+
+    .availability-toolbar {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        align-items: end;
+    }
+
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 5rem;
+        padding: .3rem .65rem;
+        border-radius: 999px;
+        font-size: .85rem;
+        font-weight: 700;
+    }
+
+    .status-free {
+        color: #166534;
+        background: #dcfce7;
+    }
+
+    .status-booked {
+        color: #842029;
+        background: #f8d7da;
+    }
+
+    @@media (max-width: 1000px) {
+        .availability-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<partial name="_Notification" />
+
+<form id="antiForgeryForm">
+    @Html.AntiForgeryToken()
+</form>
+
+<div class="availability-page">
+    <div class="availability-layout">
+        <section class="availability-panel">
+            <h1>Create availability</h1>
+
+            <form asp-action="Create" asp-controller="AppointmentDateAvailability" method="post" class="form-column">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label asp-for="StartDate">Start date</label>
+                        <input asp-for="StartDate" type="date" min="@today" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="EndDate">End date</label>
+                        <input asp-for="EndDate" type="date" min="@today" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label asp-for="StartTime">Start time</label>
+                        <input asp-for="StartTime" type="time" step="1800" />
+                        <span asp-validation-for="StartTime" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="EndTime">End time</label>
+                        <input asp-for="EndTime" type="time" step="1800" />
+                        <span asp-validation-for="EndTime" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label>Days</label>
+                    <div class="availability-days">
+                        @foreach (var day in days)
+                        {
+                            <label class="availability-day">
+                                <input type="checkbox"
+                                       name="SelectedDays"
+                                       value="@((int)day.Value)"
+                                       checked="@Model.SelectedDays.Contains(day.Value)" />
+                                <span>@day.Label</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btnAction"><i class="bi bi-calendar-plus"></i>&nbsp; Create slots</button>
+                </div>
+            </form>
+        </section>
+
+        <section>
+            <div class="availability-toolbar">
+                <div class="form-field">
+                    <label for="startDate">Start date</label>
+                    <input type="date" id="startDate" min="@today" />
+                </div>
+                <div class="form-field">
+                    <label for="endDate">End date</label>
+                    <input type="date" id="endDate" min="@today" />
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="slotsTable" class="table table-striped table-hover">
+                    <thead class="table-dark"></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    function getAntiForgeryToken() {
+        return document.querySelector('input[name="__RequestVerificationToken"]').value;
+    }
+
+    function setInitialDateRange() {
+        const today = new Date();
+        const endDate = new Date();
+        endDate.setDate(today.getDate() + 14);
+
+        document.querySelector("#startDate").value = today.toISOString().slice(0, 10);
+        document.querySelector("#endDate").value = endDate.toISOString().slice(0, 10);
+    }
+
+    function formatTime(time) {
+        if (!time) {
+            return "";
+        }
+
+        const [hour, minute] = time.split(":");
+        const date = new Date();
+        date.setHours(Number(hour), Number(minute), 0);
+
+        return date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    }
+
+    async function updateTable() {
+        const startDate = document.querySelector("#startDate").value;
+        const endDate = document.querySelector("#endDate").value;
+
+        if (!startDate || !endDate) {
+            return;
+        }
+
+        const response = await fetch(`/AppointmentDateAvailability/GetSlotsByDateRange?startDate=${startDate}&endDate=${endDate}`);
+        const data = await response.json();
+
+        const table = $("#slotsTable");
+        const thead = table.find("thead");
+        const tbody = table.find("tbody");
+
+        thead.empty();
+        tbody.empty();
+
+        const headerRow = $("<tr>");
+        headerRow.append("<th>Date</th>");
+        headerRow.append("<th>Time</th>");
+        headerRow.append("<th>Status</th>");
+        headerRow.append("<th>Actions</th>");
+        thead.append(headerRow);
+
+        data.forEach(function (slot) {
+            const row = document.createElement("tr");
+            const statusClass = slot.isBooked ? "status-booked" : "status-free";
+            const statusText = slot.isBooked ? "Booked" : "Free";
+
+            row.innerHTML = `
+                <td>${slot.date}</td>
+                <td>${formatTime(slot.time)}</td>
+                <td><span class="status-pill ${statusClass}">${statusText}</span></td>
+            `;
+
+            const actionsTd = document.createElement("td");
+
+            if (!slot.isBooked) {
+                const deleteForm = document.createElement("form");
+                deleteForm.method = "post";
+                deleteForm.action = `/AppointmentDateAvailability/DeleteSlot?id=${slot.id}`;
+                deleteForm.dataset.deleteName = `${slot.date} ${formatTime(slot.time)}`;
+
+                const tokenInput = document.createElement("input");
+                tokenInput.type = "hidden";
+                tokenInput.name = "__RequestVerificationToken";
+                tokenInput.value = getAntiForgeryToken();
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.type = "submit";
+                deleteBtn.classList.add("btn", "btnDelete");
+                deleteBtn.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+
+                deleteForm.appendChild(tokenInput);
+                deleteForm.appendChild(deleteBtn);
+                actionsTd.appendChild(deleteForm);
+            }
+
+            row.appendChild(actionsTd);
+            tbody.append(row);
+        });
+    }
+
+    document.querySelector("#startDate").addEventListener("change", updateTable);
+    document.querySelector("#endDate").addEventListener("change", updateTable);
+
+    setInitialDateRange();
+    updateTable();
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

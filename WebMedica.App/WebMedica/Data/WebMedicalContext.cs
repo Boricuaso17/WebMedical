@@ -23,6 +23,8 @@ namespace WebMedical.Data
         public DbSet<UserDiagnosis> UserDiagnosis { get; set; }
         public DbSet<Diagnosis> Diagnosis { get; set; }
         public DbSet<Appointment> Appointment { get; set; }
+        public DbSet<AppointmentDateAvailability> AppointmentDateAvailability { get; set; }
+        public DbSet<AppointmentDateSlot> AppointmentDateSlot { get; set; }
         public DbSet<Prescription> Prescription { get; set; }
         public DbSet<Medication> Medication { get; set; }
         #endregion 
@@ -47,6 +49,30 @@ namespace WebMedical.Data
                 .WithMany()
                 .HasForeignKey(p => p.PrescribedById)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<AppointmentDateAvailability>()
+                .HasMany(a => a.AppointmentDateSlots)
+                .WithOne(s => s.AppointmentDateAvailability)
+                .HasForeignKey(s => s.AppointmentDateAvailabilityId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<AppointmentDateSlot>()
+                .HasIndex(s => new { s.Date, s.Time })
+                .IsUnique()
+                .HasDatabaseName("IX_AppointmentDateSlot_Date_Time_Global")
+                .HasFilter("\"ProviderUserLoginId_fk\" IS NULL");
+
+            modelBuilder.Entity<AppointmentDateSlot>()
+                .HasIndex(s => new { s.Date, s.Time, s.ProviderUserLoginId })
+                .IsUnique()
+                .HasDatabaseName("IX_AppointmentDateSlot_Date_Time_ProviderUserLoginId_fk")
+                .HasFilter("\"ProviderUserLoginId_fk\" IS NOT NULL");
+
+            modelBuilder.Entity<AppointmentDateSlot>()
+                .HasOne(s => s.Appointment)
+                .WithMany()
+                .HasForeignKey(s => s.AppointmentId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             base.OnModelCreating(modelBuilder);
         }

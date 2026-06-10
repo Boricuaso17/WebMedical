@@ -1,8 +1,8 @@
 ﻿@model WebMedical.Models.ViewModel.AddUserRequest
 
 @{
-    string[] backgroundColorArr = ["#FDE2E4", "#D8F3DC", "#DCEEFB", "#FFF1C1", "#E9D5FF", "#FFD6A5", "#CFFAFE", "#FBCFE8"];
-    string[] iconColorArr = ["#BE123C", "#166534", "#1D4ED8", "#A16207", "#6B21A8", "#C2410C", "#0E7490", "#9D174D"];
+    string[] iconColorArr = ["#FDE2E4", "#D8F3DC", "#DCEEFB", "#FFF1C1", "#E9D5FF", "#FFD6A5", "#CFFAFE", "#FBCFE8"];
+    string[] backgroundColorArr = ["#BE123C", "#166534", "#1D4ED8", "#A16207", "#6B21A8", "#C2410C", "#0E7490", "#9D174D"];
 
     var random = new Random();
     int idx = random.Next(0, backgroundColorArr.Length - 1);
@@ -16,12 +16,12 @@
     }
 
     .cardContainer {
-        background: #24292e;
+        background: white;
         width: 100%;
         height: auto;
         border-radius: 40px;
         padding: 1.5rem;
-        color: white;
+        color: black;
         margin-top: 2rem;
         display: grid;
         grid-template-columns: 250px 1fr;
@@ -59,9 +59,10 @@
             }
 
     .content {
-        background: #1e1e1e;
+        background: #f0f0f0;
         border-radius: 20px;
         padding: 20px;
+        color: black;
     }
 
         .content label {
@@ -100,7 +101,7 @@
             </div>
 
             <div class="sidebar">
-                <a asp-action="Add" asp-controller="Appointment" asp-route-id="@Model.Id"><i class="fa-regular fa-calendar-days"></i> &nbsp; Appointments</a>
+                <a asp-action="Add" asp-controller="Appointment" asp-route-userId="@Model.UserLogin.Id"><i class="fa-regular fa-calendar-days"></i> &nbsp; Appointments</a>
                 <a asp-action="Index" asp-controller="UserDiagnosis" asp-route-userId="@Model.Id"><i class="fa-solid fa-stethoscope"></i> &nbsp; Diagnostics</a>
                 <a asp-action="Record" asp-controller="Prescription" asp-route-patientId="@Model.Id"><i class="fa-solid fa-file-prescription"></i> &nbsp; Prescriptions</a>
             </div>
@@ -116,6 +117,9 @@
 
             <label>Teléfono:</label>
             <p> @Model.Phone</p>
+
+            <label>Plan médico:</label>
+            <p>@Model.MedicPlan</p>
 
             <label>Direccion Fisical</label>
             <p>@Model.FisicalAddress <br /> @Model.FisicalAddressLine2</p>

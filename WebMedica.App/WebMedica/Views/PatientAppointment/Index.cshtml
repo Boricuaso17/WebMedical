@@ -1,0 +1,98 @@
+@model WebMedical.Models.ViewModel.PatientAppointmentRequest
+
+@{
+    Layout = "_PatientLayout";
+    ViewData["Title"] = "Mis citas";
+    var today = DateOnly.FromDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+}
+
+<style>
+    .patient-appointment-page {
+        display: grid;
+        grid-template-columns: minmax(18rem, 24rem) 1fr;
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .patient-panel {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, .08);
+    }
+
+    .slot-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+        gap: .75rem;
+    }
+
+    .slot-button {
+        min-height: 3rem;
+        border: 1px solid #222;
+        border-radius: 8px;
+        background: #171717;
+        color: white;
+        font-weight: 700;
+    }
+
+    .slot-button:hover,
+    .slot-button:focus {
+        background: #333;
+    }
+
+    .slot-empty {
+        margin: 0;
+        color: #525252;
+    }
+
+    @@media (max-width: 900px) {
+        .patient-appointment-page {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<partial name="_Notification" />
+
+<section class="patient-appointment-page">
+    <div class="patient-panel">
+        <p class="patient-eyebrow">Mis citas</p>
+        <h1>Reservar cita</h1>
+
+        <form asp-action="Index" asp-controller="PatientAppointment" method="get" class="form-column">
+            <div class="form-field">
+                <label asp-for="SelectedDate">Fecha</label>
+                <input asp-for="SelectedDate" type="date" min="@today" />
+            </div>
+
+            <button type="submit" class="btnAction"><i class="bi bi-search"></i>&nbsp; Buscar</button>
+        </form>
+    </div>
+
+    <div class="patient-panel">
+        <p class="patient-eyebrow">@Model.SelectedDate.ToString("yyyy-MM-dd")</p>
+        <h2>Horas disponibles</h2>
+
+        @if (!Model.AvailableSlots.Any())
+        {
+            <p class="slot-empty">No hay horas disponibles para esta fecha.</p>
+        }
+        else
+        {
+            <div class="slot-grid">
+                @foreach (var slot in Model.AvailableSlots)
+                {
+                    <form asp-action="Book" asp-controller="PatientAppointment" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="slotId" value="@slot.Id" />
+                        <input type="hidden" name="reason" value="Patient appointment" />
+                        <button type="submit" class="slot-button">
+                            @slot.Time.ToString("h:mm tt")
+                        </button>
+                    </form>
+                }
+            </div>
+        }
+    </div>
+</section>

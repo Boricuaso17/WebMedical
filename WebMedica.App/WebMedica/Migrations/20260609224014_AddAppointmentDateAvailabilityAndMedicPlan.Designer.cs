@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebMedical.Data;
@@ -11,9 +12,11 @@ using WebMedical.Data;
 namespace WebMedical.Migrations
 {
     [DbContext(typeof(WebMedicalContext))]
-    partial class WebMedicalContextModelSnapshot : ModelSnapshot
+    [Migration("20260609224014_AddAppointmentDateAvailabilityAndMedicPlan")]
+    partial class AddAppointmentDateAvailabilityAndMedicPlan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,19 +1,24 @@
-@model WebMedical.Models.Domain.Appointment
+@model WebMedical.Models.ViewModel.AddAppointmentRequest
 
 <div class="form-page">
     <div class="form-modal">
         <h1>@ViewBag.Action</h1>
         <h4>Appointment</h4>
+        <h5>@Model.UserLoginId</h5>
 
         <form method="post" asp-action="@ViewBag.Action" asp-controller="Appointment">
-            @if (ViewBag.Action == "Edit")
-            {
-                <input asp-for="@Model.Id" type="hidden" />
-            }
+
+            <input asp-for="@Model.Id" type="hidden" />
+            <input asp-for="@Model.UserLoginId"   type="hidden" />
 
             <div class="form-field">
                 <label asp-for="Date"></label>
                 <input asp-for="Date" type="date" />
+            </div>
+
+            <div class="form-field">
+                <label asp-for="Time"></label>
+                <input asp-for="Time" type="time" step="1800" />
             </div>
 
             <div class="form-field">

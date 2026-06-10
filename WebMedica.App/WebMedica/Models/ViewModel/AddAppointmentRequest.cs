@@ -1,12 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace WebMedical.Models.Domain
+﻿namespace WebMedical.Models.ViewModel
 {
-    public class Appointment
+    public class AddAppointmentRequest
     {
-
-        [Key]
         public int Id { get; set; }
 
         public DateOnly Date { get; set; }
@@ -14,8 +9,6 @@ namespace WebMedical.Models.Domain
         public TimeOnly? Time { get; set; }
         public string Reason { get; set; }
         public string Notes { get; set; }
-        [Column("UserLoginId_fk")]
         public string UserLoginId { get; set; }
-        public UserLogin UserLogin { get; set; }
     }
 }

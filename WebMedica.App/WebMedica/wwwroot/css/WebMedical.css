@@ -6,6 +6,10 @@
     overflow-x: hidden;
 }
 
+main {
+    background: #f0f0f0;
+}
+
 /* Wrapper principal */
 .layout-wrapper {
     display: flex;

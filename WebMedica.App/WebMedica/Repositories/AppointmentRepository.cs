@@ -1,6 +1,7 @@
-﻿using WebMedical.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using WebMedical.Data;
 using WebMedical.Models.Domain;
-using Microsoft.EntityFrameworkCore;
+using WebMedical.Models.ViewModel;
 
 namespace WebMedical.Repositories
 {
@@ -13,9 +14,9 @@ namespace WebMedical.Repositories
             _webMedicalDbContext = webMedicalDbContext;
         }
 
-        public async Task<Appointment> AddAsync(Appointment appointment)
+        public async Task<AddAppointmentRequest> AddAsync(AddAppointmentRequest appointment)
         {
-            await _webMedicalDbContext.Appointment.AddAsync(appointment);
+            await _webMedicalDbContext.Appointment.AddAsync(ToAppointment(appointment));
             await _webMedicalDbContext.SaveChangesAsync();
 
             return appointment;
@@ -61,10 +62,26 @@ namespace WebMedical.Repositories
             return appointments;
         }
 
-        public async Task<Appointment> UpdateAsync(Appointment appointment)
+        public async Task<AddAppointmentRequest> UpdateAsync(AddAppointmentRequest appointment)
         {
-             _webMedicalDbContext.Appointment.Update(appointment);
+             _webMedicalDbContext.Appointment.Update(ToAppointment(appointment));
             await _webMedicalDbContext.SaveChangesAsync();
+
+            return appointment;
+        }
+
+        public Appointment ToAppointment(AddAppointmentRequest model)
+        {
+
+            var appointment = new Appointment
+            {
+                Id = model.Id,
+                Date = model.Date,
+                Time = model.Time,
+                Reason = model.Reason,
+                Notes = model.Notes,
+                UserLoginId = model.UserLoginId
+            };
 
             return appointment;
         }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
-using WebMedical.Models.Domain;
+using WebMedical.Models.ViewModel;
 using WebMedical.Repositories;
 
 namespace WebMedical.Controllers
@@ -22,19 +22,23 @@ namespace WebMedical.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult Add(string userId)
         {
 
+            var appointment = new AddAppointmentRequest
+            {
+                UserLoginId = userId
+
+            };
+
             ViewBag.Action = "Add";
-            return View();
+            return View(appointment);
         }
          [HttpPost]
-         public async Task<IActionResult> Add(Appointment model)
+         public async Task<IActionResult> Add(AddAppointmentRequest model)
          {
              if (!ModelState.IsValid)
              {
-                
-
                  return RedirectToAction("Add");
              }
 
@@ -57,7 +61,7 @@ namespace WebMedical.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Appointment model)
+        public async Task<IActionResult> Edit(AddAppointmentRequest model)
         {
 
             var appointment = await _appointmentRepository.UpdateAsync(model);

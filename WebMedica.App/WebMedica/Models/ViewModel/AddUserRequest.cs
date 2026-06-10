@@ -33,6 +33,8 @@ namespace WebMedical.Models.ViewModel
         //The personal cellphone of the user
         public string Phone { get; set; }
 
+        public string? MedicPlan { get; set; }
+
         //The fisical address of the user
         public string FisicalAddress { get; set; }
 
