@@ -41,6 +41,7 @@ builder.Services.AddScoped<IAppointmentDateAvailabilityRepository, AppointmentDa
 builder.Services.AddScoped<IDiagnosisRepository, DiagnosisRepository>();
 builder.Services.AddScoped<IMedicationRepository, MedicationRepository>();
 builder.Services.AddScoped<IUserDiagnosisRepository, UserDiagnosisRepository>();
+builder.Services.AddScoped<IUserPatientRepository, UserPatientRepository>();
 builder.Services.AddScoped<IPrescriptionRepository, PrescriptionRepository>();
 
 

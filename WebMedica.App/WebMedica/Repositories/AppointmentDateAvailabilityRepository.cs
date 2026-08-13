@@ -145,6 +145,34 @@ namespace WebMedical.Repositories
             return true;
         }
 
+        public async Task<int> DeleteSlotsAsync(IEnumerable<int> ids)
+        {
+            var slotIds = ids.Distinct().ToList();
+
+            if (slotIds.Count == 0)
+            {
+                return 0;
+            }
+
+            var slots = await _webMedicalDbContext.AppointmentDateSlot
+                .Where(s => slotIds.Contains(s.Id))
+                .ToListAsync();
+
+            var deletableSlots = slots
+                .Where(s => !s.IsBooked && !IsPastSlot(s.Date, s.Time))
+                .ToList();
+
+            if (deletableSlots.Count == 0)
+            {
+                return 0;
+            }
+
+            _webMedicalDbContext.AppointmentDateSlot.RemoveRange(deletableSlots);
+            await _webMedicalDbContext.SaveChangesAsync();
+
+            return deletableSlots.Count;
+        }
+
         private async Task<List<AppointmentDateSlot>> BuildNewSlotsAsync(
             AppointmentDateAvailability availability,
             List<DayOfWeek> selectedDays)

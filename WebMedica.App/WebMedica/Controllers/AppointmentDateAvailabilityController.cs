@@ -103,5 +103,25 @@ namespace WebMedical.Controllers
             TempData["CrudAlertTitle"] = "Slot deleted";
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteSlots(int[] slotIds)
+        {
+            var deletedCount = await _availabilityRepository.DeleteSlotsAsync(slotIds);
+
+            if (deletedCount == 0)
+            {
+                TempData["SuccessMessage"] = "No slots were deleted because none were selected or the selected slots are booked/expired.";
+                TempData["CrudAlertType"] = "delete";
+                TempData["CrudAlertTitle"] = "Slots not deleted";
+                return RedirectToAction("Index");
+            }
+
+            TempData["SuccessMessage"] = $"{deletedCount} available slots deleted successfully.";
+            TempData["CrudAlertType"] = "delete";
+            TempData["CrudAlertTitle"] = "Slots deleted";
+            return RedirectToAction("Index");
+        }
     }
 }

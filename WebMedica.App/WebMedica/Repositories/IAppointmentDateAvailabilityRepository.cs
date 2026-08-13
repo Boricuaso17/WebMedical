@@ -11,5 +11,6 @@ namespace WebMedical.Repositories
         Task<int> CreateAvailabilityAsync(AppointmentDateAvailabilityRequest model, string? createdByUserLoginId);
         Task<Appointment?> BookSlotAsync(int slotId, string userLoginId, string? reason, string? notes);
         Task<bool> DeleteSlotAsync(int id);
+        Task<int> DeleteSlotsAsync(IEnumerable<int> ids);
     }
 }
