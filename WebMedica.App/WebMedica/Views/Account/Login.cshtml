@@ -1,4 +1,4 @@
-﻿@model WebMedical.Models.ViewModel.LoginRequest
+@model WebMedical.Models.ViewModel.LoginRequest
 
 
 <style>
@@ -50,8 +50,9 @@
 <div class="loginContainer">
     <div class="loginCard">
         
-        <form asp-action="Login" asp-controller="Account">
+        <form asp-action="Login" asp-controller="Account" method="post">
             <div class="content">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     
                 <label asp-for="Username" class="control-label">Username</label>
                 <input asp-for="Username" />

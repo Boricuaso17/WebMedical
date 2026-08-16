@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebMedical.Models.ViewModel
 {
     public class LoginRequest
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        [Required]
+        public string Username { get; set; } = string.Empty;
+
+        [Required]
+        public string Password { get; set; } = string.Empty;
     }
 }

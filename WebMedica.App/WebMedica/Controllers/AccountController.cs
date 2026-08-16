@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Npgsql;
 using WebMedical.Models.Domain;
 using WebMedical.Models.ViewModel;
 
@@ -10,11 +10,16 @@ namespace WebMedical.Controllers
     {
         private readonly SignInManager<UserLogin> _signInManager;
         private readonly UserManager<UserLogin> _userManager;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(SignInManager<UserLogin> signInManager, UserManager<UserLogin> userManager)
+        public AccountController(
+            SignInManager<UserLogin> signInManager,
+            UserManager<UserLogin> userManager,
+            ILogger<AccountController> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -26,7 +31,24 @@ namespace WebMedical.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var result = await _signInManager.PasswordSignInAsync(request.Username, request.Password, false, true);
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
+
+            Microsoft.AspNetCore.Identity.SignInResult result;
+
+            try
+            {
+                result = await _signInManager.PasswordSignInAsync(request.Username, request.Password, false, true);
+            }
+            catch (NpgsqlException ex)
+            {
+                _logger.LogError(ex, "Unable to connect to the authentication database while signing in user {Username}.", request.Username);
+                ModelState.AddModelError(string.Empty, "Unable to connect to the database. Please verify the database connection settings and try again.");
+                return View(request);
+            }
+
             if (result.Succeeded)
             {
                 var userLogin = await _userManager.FindByNameAsync(request.Username);
@@ -49,8 +71,8 @@ namespace WebMedical.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.ErrorMessage = "Invalid username or password.";
-            return View();
+            ModelState.AddModelError(string.Empty, "Invalid username or password.");
+            return View(request);
         }
 
         [HttpPost]
@@ -81,11 +103,16 @@ namespace WebMedical.Controllers
 
             if (request.NewPassword != request.ConfirmPassword)
             {
-                ModelState.AddModelError("", "Las contraseñas no coinciden.");
+                ModelState.AddModelError("", "Las contrasenas no coinciden.");
                 return View(request);
             }
 
             var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Challenge();
+            }
 
             var result = await _userManager.ChangePasswordAsync(
                          user,
