@@ -34,6 +34,9 @@ namespace WebMedical.Controllers
 
             return View(appointments);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> MyInformation
     }
 }
 
